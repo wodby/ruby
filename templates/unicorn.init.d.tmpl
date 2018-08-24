@@ -6,6 +6,6 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
-bundle exec unicorn_rails \
+bundle exec unicorn \
     -E {{ getenv "RAILS_ENV" }} \
-    -c /usr/local/etc/unicorn/config.rb {{ if (getenv "DEBUG") }}-d{{ end }}
+    -c /usr/local/etc/unicorn.rb {{ if getenv "UNICORN_DEBUG" }}-d{{ end }}

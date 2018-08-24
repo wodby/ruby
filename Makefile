@@ -1,7 +1,7 @@
 -include env_make
 
 RUBY_VER ?= 2.5.1
-RUBY_VER_MINOR ?= $(shell echo "${RUBY_VER}" | grep -oE '^[0-9]+\.[0-9]+')
+RUBY_VER_MINOR := $(shell echo "${RUBY_VER}" | grep -oE '^[0-9]+\.[0-9]+')
 
 REPO = wodby/ruby
 NAME = ruby-$(RUBY_VER_MINOR)
@@ -43,7 +43,7 @@ build:
 
 test:
 	echo ok
-#	cd ./test && IMAGE=$(REPO):$(TAG) ./run.sh
+	cd ./tests && IMAGE=$(REPO):$(TAG) ./run.sh
 
 push:
 	docker push $(REPO):$(TAG)

@@ -4,8 +4,10 @@ services:
   nginx:
     image: wodby/nginx
     environment:
-      NGINX_APP_SERVER_HOST: ruby
-      NGINX_APP_SERVER_PORT: 8080
+      DEBUG: 1
+      NGINX_BACKEND_HOST: ruby
+      NGINX_VHOST_PRESET: http-proxy
+      NGINX_SERVER_ROOT: /usr/src/app
     depends_on:
       - ruby
 
@@ -21,14 +23,19 @@ services:
     image: $IMAGE
     environment:
       SSH_DISABLE_STRICT_KEY_CHECKING: 1
+      DEBUG: 1
+      ROWS: 80
     volumes:
       - ./tests.sh:/usr/local/bin/tests.sh
       - ./id_rsa:/home/wodby/.ssh/id_rsa
+    command: sh -c "gem install rails && rails new . && bundle install && bundle add unicorn && sudo -E /etc/init.d/unicorn"
     depends_on:
       - sshd
 
   crond:
     image: $IMAGE
     command: sudo -E crond -f -d 0
+    volumes:
+      - ./crontab:/etc/crontabs/www-data
     depends_on:
       - sshd

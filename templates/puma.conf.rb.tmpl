@@ -1,0 +1,31 @@
+#!/usr/bin/env puma
+
+directory '{{ getenv "PUMA_DIRECTORY" "/usr/src/app" }}'
+
+rackup '{{ getenv "PUMA_RACKUP" "/usr/src/app/config.ru" }}'
+
+environment '{{ getenv "PUMA_ENVIRONMENT" "development" }}'
+
+stdout_redirect /proc/self/fd/1, /proc/self/fd/2
+
+{{ if getenv "PUMA_QUIET" }}
+quiet
+{{ end }}
+
+threads {{ getenv "PUMA_THREADS" "0, 16" }}
+
+bind 'tcp://0.0.0.0:8080'
+
+{{ if getenv "PUMA_PRUNE_BUNDLER" }}
+prune_bundler
+{{ end }}
+
+{{ if getenv "PUMA_PRELOAD_APP" }}
+preload_app!
+{{ end }}
+
+tag '{{ getenv "PUMA_TAG" }}'
+
+worker_timeout {{ getenv "PUMA_WORKER_TIMEOUT" "60" }}
+
+worker_boot_timeout {{ getenv "PUMA_WORKER_BOOT_TIMEOUT" "60" }}

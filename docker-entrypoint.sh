@@ -14,12 +14,8 @@ _gotpl() {
     fi
 }
 
-init_ssh_client() {
-    _gotpl "ssh_config.tpl" "${ssh_dir}/config"
-}
-
 init_sshd() {
-    _gotpl "sshd_config.tpl" "/etc/ssh/sshd_config"
+    _gotpl "sshd_config.tmpl" "/etc/ssh/sshd_config"
 
     printenv | xargs -I{} echo {} | awk ' \
         BEGIN { FS = "=" }; { \
@@ -41,17 +37,18 @@ init_git() {
 }
 
 process_templates() {
-    _gotpl "unicorn.conf.rb.tpl" "/usr/local/etc/unicorn/config.rb"
+    _gotpl ssh_config.tmpl "${ssh_dir}/config"
+    _gotpl unicorn.init.d.tmpl /etc/init.d/unicorn
+    _gotpl unicorn.conf.rb.tmpl /usr/local/etc/unicorn.rb
+    _gotpl puma.confing.rb.tmpl /usr/local/etc/puma.rb
 }
 
-chmod +x /etc/init.d/unicorn
+sudo init_container
 
-sudo init_volumes
-
-init_ssh_client
 init_git
-
 process_templates
+
+chmod +x /etc/init.d/unicorn
 
 if [[ "${@:1:2}" == "sudo /usr/sbin/sshd" ]]; then
     init_sshd
@@ -59,18 +56,12 @@ fi
 
 exec_init_scripts
 
+if [[ "${@:1:3}" == "sudo -E /etc/init.d/unicorn" && -f Gemfile ]]; then
+    bundle install
+fi
+
 if [[ "${1}" == "make" ]]; then
     exec "${@}" -f /usr/local/bin/actions.mk
-# Infinite loop with default command and missing requirements.txt.
-elif [[ "${@:1:3}" == "sudo -E /etc/init.d/unicorn" && ! -f "Gemfile" ]]; then
-    echo "File Gemfile is missing in working dir ${PWD}"
-
-    trap cleanup SIGINT SIGTERM
-
-    while [ 1 ]; do
-        sleep 60 &
-        wait $!
-    done
 else
     exec "${@}"
 fi
