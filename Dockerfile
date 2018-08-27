@@ -62,7 +62,6 @@ RUN set -xe; \
         make \
         mariadb-client=10.1.32-r0 \
         nano \
-        nodejs=8.9.3-r1 \
         openssh \
         openssh-client \
         patch \
@@ -86,6 +85,10 @@ RUN set -xe; \
         sqlite-dev \
         mariadb-dev; \
     \
+    if [[ -n "${RUBY_DEV}" ]]; then \
+        apk add --update --no-cache -t .ruby-dev-deps \
+            nodejs=8.9.3-r1; \
+    fi; \
     # Install redis-cli.
     apk add --update --no-cache redis; \
     mkdir -p /tmp/pkgs-bins; \
@@ -163,7 +166,6 @@ RUN set -xe; \
             echo -n '/usr/local/bin/files_sync, ' ; \
             echo -n '/usr/local/bin/gen_ssh_keys, ' ; \
             echo -n '/usr/local/bin/init_container, ' ; \
-            echo -n '/etc/init.d/unicorn, ' ; \
             echo -n '/usr/sbin/sshd, ' ; \
             echo '/usr/sbin/crond' ; \
         fi; \
@@ -201,4 +203,4 @@ COPY docker-entrypoint.sh /
 COPY bin /usr/local/bin/
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["sudo", "-E", "/etc/init.d/unicorn"]
+CMD ["puma", " -C", "/usr/local/etc/puma.rb"]

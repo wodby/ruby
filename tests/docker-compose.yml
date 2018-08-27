@@ -28,7 +28,7 @@ services:
     volumes:
       - ./tests.sh:/usr/local/bin/tests.sh
       - ./id_rsa:/home/wodby/.ssh/id_rsa
-    command: sh -c "gem install rails && rails new . && bundle install && bundle add unicorn && sudo -E /etc/init.d/unicorn"
+    command: sh -c "gem install rails && rails new . && bundle install && puma -C /usr/local/etc/puma.rb"
     depends_on:
       - sshd
 

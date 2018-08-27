@@ -40,7 +40,7 @@ process_templates() {
     _gotpl ssh_config.tmpl "${ssh_dir}/config"
     _gotpl unicorn.init.d.tmpl /etc/init.d/unicorn
     _gotpl unicorn.conf.rb.tmpl /usr/local/etc/unicorn.rb
-    _gotpl puma.confing.rb.tmpl /usr/local/etc/puma.rb
+    _gotpl puma.conf.rb.tmpl /usr/local/etc/puma.rb
 }
 
 sudo init_container
@@ -56,7 +56,7 @@ fi
 
 exec_init_scripts
 
-if [[ "${@:1:3}" == "sudo -E /etc/init.d/unicorn" && -f Gemfile ]]; then
+if [[ -n "${RUBY_DEV}" && -f Gemfile ]]; then
     bundle install
 fi
 
