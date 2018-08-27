@@ -56,10 +56,6 @@ fi
 
 exec_init_scripts
 
-if [[ -n "${RUBY_DEV}" && -f Gemfile ]]; then
-    bundle install
-fi
-
 if [[ "${1}" == "make" ]]; then
     exec "${@}" -f /usr/local/bin/actions.mk
 else

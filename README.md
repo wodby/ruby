@@ -12,8 +12,9 @@
 * [Build arguments](#build-arguments)
 * [Libraries](#libraries)
 * [Changelog](#changelog)
-* [Workflow](#workflow)
-* [Prebuilt gems with native extensions](#prebuilt-gems-with-native-extensions)
+* [Gems](#gems)
+    * [Gems with native extensions](#gems-with-native-extensions)
+    * [Bundler](#bundler)
 * [HTTP server](#http-server)
     * [Puma (default)](#puma)
     * [Unicorn](#unicorn)
@@ -101,13 +102,11 @@ All essential linux libraries are freezed and updates will be reflected in [chan
 
 Changes per stability tag reflected in git tags description under [releases](https://github.com/wodby/ruby/releases). 
 
-## Workflow
+## Gems
 
-When you run `bundle install` (`-dev` image runs it automatically on containers start) your gems will be installed to `~/.gem` because we have a set of [prebuilt gems](#prebuilt-gems-with-native-extensions) and bundler does not have support for local/global cache. With every container restart you'll have to run `bundle install` again to fetch gems because `~/.gem` is ephemeral. This can be partly fixed by running `bundle package` after `bundle install`, so the next time you run `bundle install` it will use gems from `vendor/cache` instead of fetching them again from remote 
+### Gems with native extensions
 
-## Prebuilt gems with native extensions
-
-This image contains a set of gems with precompiled native extensions, located in `~/.gem`. If you can't find a gem with a native extension that you think worth adding to the generic image please let us know by submitting an issue.
+This image comes with a set of gems with precompiled native extensions, installed in `~/.gem`:
 
 | Gem                | Version                   |
 | ------------------ | ------------------------- |
@@ -138,6 +137,12 @@ This image contains a set of gems with precompiled native extensions, located in
 | [unf_ext]          | 0.0.7.5                   |
 | [unicorn]          | 5.4.1                     |
 | [websocket-driver] | 0.7.0                     |
+
+If you can't find a gem with a native extension that you think worth adding to the generic image please let us know by submitting an issue.
+
+### Bundler
+
+Since bundler does not have support for global cache your gems installed via `bundle install` will also be installed in `~/.gem` in order to be aware of pre-installed gems with native extensions. Directory `~/.gem` (or `/home/wodby/.gem`) is ephemeral by default so with every container restart you'll have to run `bundle install` again. To avoid that you can add a bind mount from your host machine to `/home/wodby/.gem`. If you cannot do that for some reason, you can optimize this process by running `bundle package` so the next time you run `bundle install` it will use gems from `vendor/cache` instead of fetching it from remote.
 
 ## HTTP server
 
@@ -172,7 +177,6 @@ Images with `-dev` tag have the following additions:
 
 * `sudo` allowed for all commands for `wodby` user
 * `nodejs` package added
-* container runs `bundle install` on the start if `Gemfile` exists
 
 ## `-dev-macos` Images
 
