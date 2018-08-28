@@ -168,7 +168,7 @@ If you think a missing gem worth adding to the generic image please let us know 
 
 ### Bundler
 
-Since bundler does not have support for global cache your gems installed via `bundle install` will also be installed in `~/.gem` in order to be aware of pre-installed gems with native extensions. Directory `~/.gem` (or `/home/wodby/.gem`) is ephemeral by default so with every container restart you'll have to run `bundle install` again. To avoid that you can add a bind mount from your host machine to `/home/wodby/.gem`. If you cannot do that for some reason, you can optimize this process by running `bundle package` so the next time you run `bundle install` it will use gems from `vendor/cache` instead of fetching it from remote.
+Since bundler does not have support for global cache when you run `bundle install` your gems will be installed in `~/.gem` in order to be aware of pre-installed gems with native extensions. Directory `~/.gem` (or `/home/wodby/.gem`) is ephemeral by default so with every container restart you'll have to run `bundle install` again, to avoid that you can add a bind mount from your host machine to `/home/wodby/.gem`. If you cannot do that for some reason, you can optimize this process by running `bundle package` so the next time you run `bundle install` it will use gems from `vendor/cache` instead of fetching it from remote.
 
 ## HTTP server
 
