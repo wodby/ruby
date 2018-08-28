@@ -8,6 +8,9 @@
 ## Table of Contents
 
 * [Docker Images](#docker-images)
+    * [`-dev`](#-dev)
+    * [`-dev-macos`](#-dev-macos)
+    * [`-pure`](#-pure)
 * [Environment Variables](#environment-variables)
 * [Build arguments](#build-arguments)
 * [Libraries](#libraries)
@@ -21,10 +24,6 @@
 * [Crond](#crond)
 * [SSHD](#sshd)
 * [Adding SSH key](#adding-ssh-key)
-* [Image variants](#image-variants)
-    * [`-dev`](#-dev)
-    * [`-dev-macos`](#-dev-macos)
-    * [`-pure`](#-pure)
 * [Orchestration Actions](#orchestration-actions)
 
 ## Docker Images
@@ -54,6 +53,21 @@ Supported tags and respective `Dockerfile` links:
 * `2.3-pure` [_(Dockerfile)_]
 
 [_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
+
+### `-dev` 
+
+Images with `-dev` tag have the following additions:
+
+* `sudo` allowed for all commands for `wodby` user
+* `nodejs` package added (required by rails)
+
+### `-dev-macos`
+
+Same as `-dev` but the default user/group `wodby` has uid/gid `501`/`20`  to match the macOS default user/group ids.
+
+### `-pure`
+
+Images with `-pure` tag have no pre-installed gems. Use this image when you're building your own image based on ours. 
 
 ## Environment Variables
 
@@ -182,23 +196,6 @@ You can run SSHD with this image by changing the command to `sudo /usr/sbin/sshd
 ## Adding SSH key
 
 You can add a private SSH key to the container by mounting it to `/home/wodby/.ssh/id_rsa`
-
-## Image variants
-
-### `-dev` 
-
-Images with `-dev` tag have the following additions:
-
-* `sudo` allowed for all commands for `wodby` user
-* `nodejs` package added (required by rails)
-
-### `-dev-macos`
-
-Same as `-dev` but the default user/group `wodby` has uid/gid `501`/`20`  to match the macOS default user/group ids.
-
-### `-pure`
-
-Images with `-pure` tag have no pre-installed gems. Use this image when you're building your own image based on ours. 
 
 ## Orchestration Actions
 
