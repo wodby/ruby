@@ -21,9 +21,10 @@
 * [Crond](#crond)
 * [SSHD](#sshd)
 * [Adding SSH key](#adding-ssh-key)
-* [`-dev` images](#-dev-images)
-* [`-dev-macos` images](#-dev-macos-images)
-* [`-pure` images](#-pure-images)
+* [Image variants](#image-variants)
+    * [`-dev`](#-dev)
+    * [`-dev-macos`](#-dev-macos)
+    * [`-pure`](#-pure)
 * [Orchestration Actions](#orchestration-actions)
 
 ## Docker Images
@@ -182,20 +183,22 @@ You can run SSHD with this image by changing the command to `sudo /usr/sbin/sshd
 
 You can add a private SSH key to the container by mounting it to `/home/wodby/.ssh/id_rsa`
 
-## `-pure` Images
+## Image variants
 
-Images with `-pure` tag have no pre-installed gems. Use this image when you're building your own image based on ours. 
-
-## `-dev` Images
+### `-dev` 
 
 Images with `-dev` tag have the following additions:
 
 * `sudo` allowed for all commands for `wodby` user
 * `nodejs` package added (required by rails)
 
-## `-dev-macos` Images
+### `-dev-macos`
 
 Same as `-dev` but the default user/group `wodby` has uid/gid `501`/`20`  to match the macOS default user/group ids.
+
+### `-pure`
+
+Images with `-pure` tag have no pre-installed gems. Use this image when you're building your own image based on ours. 
 
 ## Orchestration Actions
 
