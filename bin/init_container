@@ -20,13 +20,12 @@ fi
 
 for dir in "${dirs[@]}"; do
     mkdir -p "${dir}"
-    chown www-data:www-data "${dir}"
-    chmod 775 "${dir}"
+    chown wodby:wodby "${dir}"
 done
 
-if [[ -f /etc/crontabs/www-data ]]; then
-    chown root:www-data /etc/crontabs/www-data
-    chmod 660 /etc/crontabs/www-data
+if [[ -f /etc/crontabs/wodby ]]; then
+    chown root:wodby /etc/crontabs/wodby
+    chmod 660 /etc/crontabs/wodby
 fi
 
 if [[ -f /home/wodby/.ssh/id_rsa ]]; then

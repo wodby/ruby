@@ -1,7 +1,5 @@
 worker_processes {{ getenv "UNICORN_WORKER_PROCESSES" "4" }}
 
-user "{{ getenv "UNICORN_USER" "www-data" }}", "{{ getenv "UNICORN_GROUP" "www-data" }}"
-
 working_directory "{{ getenv "UNICORN_WORKING_DIRECTORY" "/usr/src/app" }}"
 
 listen 8080, :tcp_nopush => true

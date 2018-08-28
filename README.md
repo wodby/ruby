@@ -23,6 +23,7 @@
 * [Adding SSH key](#adding-ssh-key)
 * [`-dev` images](#-dev-images)
 * [`-dev-macos` images](#-dev-macos-images)
+* [`-pure` images](#-pure-images)
 * [Orchestration Actions](#orchestration-actions)
 
 ## Docker Images
@@ -38,15 +39,20 @@ About images:
 
 Supported tags and respective `Dockerfile` links:
 
-* `2.5`, `2`, `latest` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.4` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.3` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.5-dev`, `2-dev` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.4-dev` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.3-dev` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.5-dev-macos`, `2-dev-macos` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.4-dev-macos` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
-* `2.3-dev-macos` [_(Dockerfile)_](https://github.com/wodby/ruby/tree/master/Dockerfile)
+* `2.5`, `2`, `latest` [_(Dockerfile)_]
+* `2.4` [_(Dockerfile)_]
+* `2.3` [_(Dockerfile)_]
+* `2.5-dev`, `2-dev` [_(Dockerfile)_]
+* `2.4-dev` [_(Dockerfile)_]
+* `2.3-dev` [_(Dockerfile)_]
+* `2.5-dev-macos`, `2-dev-macos` [_(Dockerfile)_]
+* `2.4-dev-macos` [_(Dockerfile)_]
+* `2.3-dev-macos` [_(Dockerfile)_]
+* `2.5-pure`, `2-pure` [_(Dockerfile)_]
+* `2.4-pure` [_(Dockerfile)_]
+* `2.3-pure` [_(Dockerfile)_]
+
+[_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
 
 ## Environment Variables
 
@@ -76,11 +82,9 @@ Supported tags and respective `Dockerfile` links:
 | `SSHD_USE_DNS`                    | `yes`                    |
 | `UNICORN_CHECK_CLIENT_CONNECTION` | `false`                  |
 | `UNICORN_DEBUG`                   |                          |
-| `UNICORN_GROUP`                   | `www-data`               |
 | `UNICORN_PRELOAD_APP`             | `true`                   |
 | `UNICORN_RUN_ONCE`                | `true`                   |
 | `UNICORN_TIMEOUT`                 | `30`                     |
-| `UNICORN_USER`                    | `www-data`               |
 | `UNICORN_WORKER_PROCESSES`        | `4`                      |
 | `UNICORN_WORKING_DIRECTORY`       | `/usr/src/app`           |
 
@@ -106,7 +110,7 @@ Changes per stability tag reflected in git tags description under [releases](htt
 
 ### Gems with native extensions
 
-This image comes with a set of gems with precompiled native extensions, installed in `~/.gem`:
+This image (except `-pure` tagged) comes with a set of gems with precompiled native extensions, installed in `~/.gem`:
 
 | Gem                | Version                   |
 | ------------------ | ------------------------- |
@@ -138,7 +142,14 @@ This image comes with a set of gems with precompiled native extensions, installe
 | [unicorn]          | 5.4.1                     |
 | [websocket-driver] | 0.7.0                     |
 
-If you can't find a gem with a native extension that you think worth adding to the generic image please let us know by submitting an issue.
+To install a missing gem with a native extension (or if you need a different version of a gem) you'll need to install dev packages in order to compile it:
+```shell
+sudo apk add --update build-base
+```
+
+Note you'll need to use `-dev` image for `sudo`.
+
+If you think a missing gem worth adding to the generic image please let us know by submitting an issue.
 
 ### Bundler
 
@@ -156,7 +167,7 @@ To use Unicorn as your HTTP server override the default container command to `/e
 
 ## Crond
 
-You can run Crond with this image changing the command to `sudo -E crond -f -d 0` and mounting a crontab file to `./crontab:/etc/crontabs/www-data`. Example crontab file contents:
+You can run Crond with this image changing the command to `sudo -E crond -f -d 0` and mounting a crontab file to `./crontab:/etc/crontabs/wodby`. Example crontab file contents:
 
 ```
 # min	hour	day	month	weekday	command
@@ -171,12 +182,16 @@ You can run SSHD with this image by changing the command to `sudo /usr/sbin/sshd
 
 You can add a private SSH key to the container by mounting it to `/home/wodby/.ssh/id_rsa`
 
+## `-pure` Images
+
+Images with `-pure` tag have no pre-installed gems. Use this image when you're building your own image based on ours. 
+
 ## `-dev` Images
 
 Images with `-dev` tag have the following additions:
 
 * `sudo` allowed for all commands for `wodby` user
-* `nodejs` package added
+* `nodejs` package added (required by rails)
 
 ## `-dev-macos` Images
 
@@ -189,8 +204,7 @@ Usage:
 make COMMAND [params ...]
 
 commands:
-    migrate
-    check-ready [host max_try wait_seconds delay_seconds port]
+    check-ready [host max_try wait_seconds delay_seconds]
     files-import source
     files-link public_dir 
 ```

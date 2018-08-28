@@ -36,6 +36,6 @@ services:
     image: $IMAGE
     command: sudo -E crond -f -d 0
     volumes:
-      - ./crontab:/etc/crontabs/www-data
+      - ./crontab:/etc/crontabs/wodby
     depends_on:
       - sshd

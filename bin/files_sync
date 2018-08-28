@@ -10,7 +10,7 @@ from=$1
 to=$2
 
 if [[ "${to}" == "${FILES_DIR}" || "${to}" =~ ^"${FILES_DIR}/" ]]; then
-    rsync -rltpog --chown=www-data:www-data "${from}" "${to}"
+    rsync -rltpog "${from}" "${to}"
     # Ensure files volume permissions are still correct.
     init_container
 else

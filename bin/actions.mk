@@ -16,9 +16,6 @@ service = HTTP server
 
 default: check-ready
 
-migrate:
-	sudo migrate $(from) $(to)
-
 files-import:
 	$(call check_defined, source)
 	files_import $(source)
