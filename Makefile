@@ -14,8 +14,6 @@ BASE_IMAGE_TAG = $(RUBY_VER)
 ifeq ($(TAG),)
     ifneq ($(RUBY_DEV),)
     	TAG ?= $(RUBY_VER_MINOR)-dev
-    else ifneq ($(RUBY_PURE),)
-    	TAG ?= $(RUBY_VER_MINOR)-pure
     else
         TAG ?= $(RUBY_VER_MINOR)
     endif
@@ -23,8 +21,6 @@ endif
 
 ifneq ($(RUBY_DEV),)
     NAME := $(NAME)-dev
-else ifneq ($(RUBY_PURGE),)
-    NAME := $(NAME)-pure
 endif
 
 ifneq ($(STABILITY_TAG),)
@@ -41,7 +37,6 @@ build:
 	docker build -t $(REPO):$(TAG) \
 		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
-		--build-arg RUBY_PURE=$(RUBY_PURE) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
 		./

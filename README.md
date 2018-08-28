@@ -10,14 +10,11 @@
 * [Docker Images](#docker-images)
     * [`-dev`](#-dev)
     * [`-dev-macos`](#-dev-macos)
-    * [`-pure`](#-pure)
 * [Environment Variables](#environment-variables)
 * [Build arguments](#build-arguments)
 * [Libraries](#libraries)
 * [Changelog](#changelog)
 * [Gems](#gems)
-    * [Gems with native extensions](#gems-with-native-extensions)
-    * [Bundler](#bundler)
 * [HTTP server](#http-server)
     * [Puma (default)](#puma)
     * [Unicorn](#unicorn)
@@ -28,14 +25,13 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/ruby:3.6-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags. 
+❗For better reliability we release images with stability tags (`wodby/ruby:2.5-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
 
 About images:
 
 * All images are based on Alpine Linux
 * [Travis CI builds](https://travis-ci.com/wodby/ruby) 
 * [Docker Hub](https://hub.docker.com/r/wodby/ruby) 
-* [`-dev`](#-dev-images) and [`-debug`](#-debug-images) images have a few differences
 
 Supported tags and respective `Dockerfile` links:
 
@@ -48,9 +44,6 @@ Supported tags and respective `Dockerfile` links:
 * `2.5-dev-macos`, `2-dev-macos` [_(Dockerfile)_]
 * `2.4-dev-macos` [_(Dockerfile)_]
 * `2.3-dev-macos` [_(Dockerfile)_]
-* `2.5-pure`, `2-pure` [_(Dockerfile)_]
-* `2.4-pure` [_(Dockerfile)_]
-* `2.3-pure` [_(Dockerfile)_]
 
 [_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
 
@@ -59,15 +52,12 @@ Supported tags and respective `Dockerfile` links:
 Images with `-dev` tag have the following additions:
 
 * `sudo` allowed for all commands for `wodby` user
+* dev package added for additional native extensions compilation 
 * `nodejs` package added (required by rails)
 
 ### `-dev-macos`
 
 Same as `-dev` but the default user/group `wodby` has uid/gid `501`/`20`  to match the macOS default user/group ids.
-
-### `-pure`
-
-Images with `-pure` tag have no pre-installed gems. Use this image when you're building your own image based on ours. 
 
 ## Environment Variables
 
@@ -123,52 +113,7 @@ Changes per stability tag reflected in git tags description under [releases](htt
 
 ## Gems
 
-### Gems with native extensions
-
-This image (except `-pure` tagged) comes with a set of gems with precompiled native extensions, installed in `~/.gem`:
-
-| Gem                | Version                   |
-| ------------------ | ------------------------- |
-| [bcrypt]           | 3.1.12                    |
-| [bindex]           | 0.5.0                     |
-| [bootsnap]         | 1.3.1                     |
-| [bson]             | 4.3.0                     |
-| [bundler]          | See base image Dockerfile |
-| [byebug]           | 10.0.2                    |
-| [eventmachine]     | 1.2.7                     |
-| [ffi]              | 1.9.25                    |
-| [hitimes]          | 1.3.0                     |
-| [http_parser.rb]   | 0.6.0                     |
-| [jaro_winkler]     | 1.5.1                     |
-| [kgio]             | 2.11.2                    |
-| [msgpack]          | 1.2.4                     |
-| [mysql2]           | 0.5.2                     |
-| [nio4r]            | 2.3.1                     |
-| [nokogiri]         | 1.8.4                     |
-| [nokogumbo]        | 1.5.0                     |
-| [oj]               | 3.6.6                     |
-| [pg]               | 1.0.0                     |
-| [posix-spawn]      | 0.3.13                    |
-| [puma]             | 3.12.0                    |
-| [raindrops]        | 0.19.0                    |
-| [rmagick]          | 2.16.0                    |
-| [sqlite3]          | 1.3.13                    |
-| [unf_ext]          | 0.0.7.5                   |
-| [unicorn]          | 5.4.1                     |
-| [websocket-driver] | 0.7.0                     |
-
-To install a missing gem with a native extension (or if you need a different version of a gem) you'll need to install dev packages in order to compile it:
-```shell
-sudo apk add --update build-base
-```
-
-Note you'll need to use `-dev` image for `sudo`.
-
-If you think a missing gem worth adding to the generic image please let us know by submitting an issue.
-
-### Bundler
-
-Since bundler does not have support for global cache when you run `bundle install` your gems will be installed in `~/.gem` in order to be aware of pre-installed gems with native extensions. Directory `~/.gem` (or `/home/wodby/.gem`) is ephemeral by default so with every container restart you'll have to run `bundle install` again, to avoid that you can add a bind mount from your host machine to `/home/wodby/.gem`. If you cannot do that for some reason, you can optimize this process by running `bundle package` so the next time you run `bundle install` it will use gems from `vendor/cache` instead of fetching it from remote.
+To install gems with native extensions use `-dev` image variants that contain required dev packages.
 
 ## HTTP server
 
@@ -208,31 +153,3 @@ commands:
     files-import source
     files-link public_dir 
 ```
-
-[bcrypt]: https://rubygems.org/gems/bcrypt
-[bindex]: https://rubygems.org/gems/bindex
-[bootsnap]: https://rubygems.org/gems/bootsnap
-[bson]: https://rubygems.org/gems/bson
-[bundler]: https://rubygems.org/gems/bundler
-[byebug]: https://rubygems.org/gems/byebug
-[eventmachine]: https://rubygems.org/gems/eventmachine
-[ffi]: https://rubygems.org/gems/ffi
-[hitimes]: https://rubygems.org/gems/hitimes
-[http_parser.rb]: https://rubygems.org/gems/http_parser.rb
-[jaro_winkler]: https://rubygems.org/gems/jaro_winkler
-[kgio]: https://rubygems.org/gems/kgio
-[msgpack]: https://rubygems.org/gems/msgpack
-[mysql2]: https://rubygems.org/gems/mysql2
-[nio4r]: https://rubygems.org/gems/nio4r
-[nokogiri]: https://rubygems.org/gems/nokogiri
-[nokogumbo]: https://rubygems.org/gems/nokogumbo
-[oj]: https://rubygems.org/gems/oj
-[pg]: https://rubygems.org/gems/pg
-[posix-spawn]: https://rubygems.org/gems/posix-spawn
-[puma]: https://rubygems.org/gems/puma
-[raindrops]: https://rubygems.org/gems/raindrops
-[rmagick]: https://rubygems.org/gems/rmagick
-[sqlite3]: https://rubygems.org/gems/sqlite3
-[unf_ext]: https://rubygems.org/gems/unf_ext
-[unicorn]: https://rubygems.org/gems/unicorn
-[websocket-driver]: https://rubygems.org/gems/websocket-driver

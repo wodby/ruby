@@ -3,13 +3,11 @@ ARG BASE_IMAGE_TAG
 FROM wodby/base-ruby:${BASE_IMAGE_TAG}
 
 ARG RUBY_DEV
-ARG RUBY_PURE
 
 ARG WODBY_USER_ID=1000
 ARG WODBY_GROUP_ID=1000
 
 ENV RUBY_DEV="${RUBY_DEV}" \
-    RUBY_PURE="${RUBY_PURE}" \
     SSHD_PERMIT_USER_ENV="yes"
 
 ENV APP_ROOT="/usr/src/app" \
@@ -21,12 +19,7 @@ ENV APP_ROOT="/usr/src/app" \
     GIT_USER_EMAIL="wodby@example.com" \
     GIT_USER_NAME="wodby" \
     \
-    GEM_HOME="/home/wodby/.gem/ruby/${RUBY_MAJOR}.0" \
     RAILS_ENV="development"
-
-ENV BUNDLE_PATH="${GEM_HOME}" \
-    BUNDLE_APP_CONFIG="${GEM_HOME}" \
-    PATH="${GEM_HOME}/bin:${GEM_HOME}/gems/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 RUN set -xe; \
     \
@@ -42,6 +35,7 @@ RUN set -xe; \
     \
     # @todo remove, and upgrade imagemagick to 7.x once rmagick starts support it
     # https://github.com/rmagick/rmagick/issues/256
+    imagemagick_ver="6.9.6.8-r1"; \
     echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
     \
     apk add --update --no-cache -t .ruby-rundeps \
@@ -49,7 +43,7 @@ RUN set -xe; \
         git \
         gmp=6.1.2-r1 \
         icu-libs=59.1-r1 \
-        imagemagick=6.9.6.8-r1 \
+        "imagemagick=${imagemagick_ver}" \
         less \
         libbz2=1.0.6-r6 \
         libjpeg-turbo-utils \
@@ -76,25 +70,20 @@ RUN set -xe; \
         tzdata \
         yaml=0.1.7-r0; \
     \
-    if [[ -z "${RUBY_PURE}" ]]; then \
-        apk add --update --no-cache -t .ruby-build-deps \
+    if [[ -n "${RUBY_DEV}" ]]; then \
+        apk add --update --no-cache -t .ruby-dev-deps \
             build-base \
             libffi-dev \
             linux-headers \
-            imagemagick-dev=6.9.6.8-r1 \
+            "imagemagick-dev=${imagemagick_ver}" \
             postgresql-dev \
             sqlite-dev \
-            mariadb-dev; \
-    fi; \
-    \
-    if [[ -n "${RUBY_DEV}" ]]; then \
-        apk add --update --no-cache -t .ruby-dev-deps \
+            mariadb-dev \
             nodejs=8.9.3-r1; \
     fi; \
     \
     # Install redis-cli.
     apk add --update --no-cache redis; \
-    mkdir -p /tmp/pkgs-bins; \
     mv /usr/bin/redis-cli /tmp/; \
     apk del --purge redis; \
     deluser redis; \
@@ -106,44 +95,6 @@ RUN set -xe; \
         "${FILES_DIR}/public" \
         "${FILES_DIR}/private" \
         /home/wodby/.ssh; \
-    \
-    if [[ -z "${RUBY_PURE}" ]]; then \
-        cd /home/wodby; \
-        { \
-            echo 'git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }'; \
-            echo 'source "https://rubygems.org"'; \
-            echo 'gem "bcrypt", "3.1.12"'; \
-            echo 'gem "bindex", "0.5.0"'; \
-            echo 'gem "bootsnap", "1.3.1"'; \
-            echo 'gem "bson", "4.3.0"'; \
-            echo 'gem "byebug", "10.0.2"'; \
-            echo 'gem "eventmachine", "1.2.7"'; \
-            echo 'gem "ffi", "1.9.25"'; \
-            echo 'gem "hitimes", "1.3.0"'; \
-            echo 'gem "http_parser.rb", "0.6.0"'; \
-            echo 'gem "jaro_winkler", "1.5.1"'; \
-            echo 'gem "kgio", "2.11.2"'; \
-            echo 'gem "msgpack", "1.2.4"'; \
-            echo 'gem "mysql2", "0.5.2"'; \
-            echo 'gem "nio4r", "2.3.1"'; \
-            echo 'gem "nokogiri", "1.8.4"'; \
-            echo 'gem "nokogumbo", "1.5.0"'; \
-            echo 'gem "oj", "3.6.6"'; \
-            echo 'gem "pg", "1.0.0"'; \
-            echo 'gem "posix-spawn", "0.3.13"'; \
-            echo 'gem "puma", "3.12.0"'; \
-            echo 'gem "raindrops", "0.19.0"'; \
-            echo 'gem "rmagick", "2.16.0"'; \
-            echo 'gem "sqlite3", "1.3.13"'; \
-            echo 'gem "unf_ext", "0.0.7.5"'; \
-            echo 'gem "unicorn", "5.4.1"'; \
-            echo 'gem "websocket-driver", "0.7.0"'; \
-            \
-        } | tee Gemfile; \
-        \
-        su-exec wodby bundle install --path /home/wodby/.gem; \
-        rm Gemfile*; \
-    fi; \
     \
     { \
         echo 'export PS1="\u@${WODBY_APP_NAME:-ruby}.${WODBY_ENVIRONMENT_NAME:-container}:\w $ "'; \
@@ -184,10 +135,6 @@ RUN set -xe; \
         /etc/init.d/unicorn \
         /home/wodby/.*; \
     \
-    if [[ -z "${RUBY_PURE}" ]]; then \
-        apk del --purge .ruby-build-deps; \
-    fi; \
-    \
     rm -rf \
         /etc/crontabs/root \
         /tmp/* \
@@ -196,11 +143,10 @@ RUN set -xe; \
 USER wodby
 
 WORKDIR ${APP_ROOT}
-EXPOSE 8080
 
 COPY templates /etc/gotpl/
 COPY docker-entrypoint.sh /
 COPY bin /usr/local/bin/
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["puma", " -C", "/usr/local/etc/puma.rb"]
+CMD ["irb"]
