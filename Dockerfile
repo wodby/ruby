@@ -142,6 +142,10 @@ RUN set -xe; \
 
 USER wodby
 
+ONBUILD RUN bundle config --global frozen 1
+ONBUILD COPY Gemfile Gemfile.lock ./
+ONBUILD RUN bundle install
+
 WORKDIR ${APP_ROOT}
 
 COPY templates /etc/gotpl/
@@ -149,4 +153,4 @@ COPY docker-entrypoint.sh /
 COPY bin /usr/local/bin/
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["irb"]
+CMD ["puma", "-C", "/usr/local/etc/puma.rb"]
