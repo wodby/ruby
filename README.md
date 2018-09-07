@@ -21,6 +21,7 @@
 * [Crond](#crond)
 * [SSHD](#sshd)
 * [Adding SSH key](#adding-ssh-key)
+* [Complete Ruby stack](#complete-ruby-stack)
 * [Orchestration Actions](#orchestration-actions)
 
 ## Docker Images
@@ -141,6 +142,10 @@ You can run SSHD with this image by changing the command to `sudo /usr/sbin/sshd
 ## Adding SSH key
 
 You can add a private SSH key to the container by mounting it to `/home/wodby/.ssh/id_rsa`
+
+## Complete Ruby stack
+
+See https://github.com/wodby/docker4ruby
 
 ## Orchestration Actions
 
