@@ -6,7 +6,7 @@ services:
 env:
   global:
     - RUBY25=2.5.2
-    - RUBY24=2.4.4
+    - RUBY24=2.4.5
     - RUBY23=2.3.7
   matrix:
     - RUBY_VER="${RUBY25}" TAGS=2.5,2,latest
