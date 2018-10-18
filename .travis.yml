@@ -7,7 +7,7 @@ env:
   global:
     - RUBY25=2.5.2
     - RUBY24=2.4.5
-    - RUBY23=2.3.7
+    - RUBY23=2.3.8
   matrix:
     - RUBY_VER="${RUBY25}" TAGS=2.5,2,latest
     - RUBY_VER="${RUBY24}" TAGS=2.4
