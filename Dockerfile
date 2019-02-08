@@ -39,36 +39,36 @@ RUN set -xe; \
     echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
     \
     apk add --update --no-cache -t .ruby-rundeps \
-        freetype=2.9.1-r1 \
+        freetype=2.9.1-r2 \
         git \
         gmp=6.1.2-r1 \
-        icu-libs=60.2-r2 \
+        icu-libs=62.1-r0 \
         "imagemagick=${imagemagick_ver}" \
         less \
         libbz2=1.0.6-r6 \
         libjpeg-turbo-utils \
         libjpeg-turbo=1.5.3-r4 \
-        libldap=2.4.46-r0 \
-        libmemcached-libs=1.0.18-r2 \
-        libpng=1.6.34-r1 \
-        librdkafka=0.11.4-r1 \
+        libldap=2.4.47-r2 \
+        libmemcached-libs=1.0.18-r3 \
+        libpng=1.6.35-r0 \
+        librdkafka=0.11.6-r1 \
         libxslt=1.1.32-r0 \
         make \
-        mariadb-client=10.2.19-r1 \
+        mariadb-client=10.3.12-r2 \
         nano \
         openssh \
         openssh-client \
         patch \
-        postgresql-client=10.5-r0 \
-        rabbitmq-c=0.8.0-r4 \
+        postgresql-client=11.1-r0 \
+        rabbitmq-c=0.8.0-r5 \
         rsync \
-        sqlite-libs=3.25.3-r0 \
+        sqlite-libs=3.26.0-r3 \
         su-exec \
         sudo \
         tig \
         tmux \
         tzdata \
-        yaml=0.1.7-r0; \
+        yaml=0.2.1-r0; \
     \
     if [[ -n "${RUBY_DEV}" ]]; then \
         apk add --update --no-cache -t .ruby-dev-deps \
