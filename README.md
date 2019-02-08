@@ -39,15 +39,12 @@ Supported tags and respective `Dockerfile` links:
 * `2.6`, `2`, `latest` [_(Dockerfile)_]
 * `2.5` [_(Dockerfile)_]
 * `2.4` [_(Dockerfile)_]
-* `2.3` [_(Dockerfile)_]
 * `2.6-dev`, `2-dev` [_(Dockerfile)_]
 * `2.5-dev` [_(Dockerfile)_]
 * `2.4-dev` [_(Dockerfile)_]
-* `2.3-dev` [_(Dockerfile)_]
 * `2.6-dev-macos`, `2-dev-macos` [_(Dockerfile)_]
 * `2.5-dev-macos` [_(Dockerfile)_]
 * `2.4-dev-macos` [_(Dockerfile)_]
-* `2.3-dev-macos` [_(Dockerfile)_]
 
 [_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
 
