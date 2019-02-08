@@ -38,7 +38,7 @@ RUN set -xe; \
     imagemagick_ver="6.9.6.8-r1"; \
     echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
     \
-    apk add --update --no-cache -t .ruby-rundeps \
+    apk add --update --no-cache -t .wodby-ruby-run-deps \
         freetype=2.9.1-r2 \
         git \
         gmp=6.1.2-r1 \
@@ -71,7 +71,7 @@ RUN set -xe; \
         yaml=0.2.1-r0; \
     \
     if [[ -n "${RUBY_DEV}" ]]; then \
-        apk add --update --no-cache -t .ruby-dev-deps \
+        apk add --update --no-cache -t .wodby-ruby-dev-deps \
             build-base \
             libffi-dev \
             linux-headers \
