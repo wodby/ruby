@@ -1,6 +1,6 @@
 -include env_make
 
-RUBY_VER ?= 2.6.1
+RUBY_VER ?= 2.6.2
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
 REPO = wodby/ruby
