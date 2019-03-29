@@ -1,6 +1,6 @@
-ARG BASE_IMAGE_TAG
+ARG RUBY_VER
 
-FROM wodby/base-ruby:${BASE_IMAGE_TAG}
+FROM ruby:${RUBY_VER}-alpine
 
 ARG RUBY_DEV
 
@@ -33,17 +33,15 @@ RUN set -xe; \
 	adduser -u "${WODBY_USER_ID}" -D -S -s /bin/bash -G wodby wodby; \
 	sed -i '/^wodby/s/!/*/' /etc/shadow; \
     \
-    # @todo remove, and upgrade imagemagick to 7.x once rmagick starts support it
-    # https://github.com/rmagick/rmagick/issues/256
-    imagemagick_ver="6.9.6.8-r1"; \
-    echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
-    \
     apk add --update --no-cache -t .wodby-ruby-run-deps \
+        bash \
+        ca-certificates \
+        curl \
         freetype=2.9.1-r2 \
         git \
         gmp=6.1.2-r1 \
+        gzip \
         icu-libs=62.1-r0 \
-        "imagemagick=${imagemagick_ver}" \
         less \
         libbz2=1.0.6-r6 \
         libjpeg-turbo-utils \
@@ -65,9 +63,12 @@ RUN set -xe; \
         sqlite-libs=3.26.0-r3 \
         su-exec \
         sudo \
+        tar \
         tig \
         tmux \
         tzdata \
+        unzip \
+        wget \
         yaml=0.2.1-r0; \
     \
     if [[ -n "${RUBY_DEV}" ]]; then \
@@ -75,12 +76,18 @@ RUN set -xe; \
             build-base \
             libffi-dev \
             linux-headers \
-            "imagemagick-dev=${imagemagick_ver}" \
             postgresql-dev \
             sqlite-dev \
             mariadb-dev \
             nodejs; \
     fi; \
+    \
+    # @todo remove, and upgrade imagemagick to 7.x once rmagick starts support it
+    # https://github.com/rmagick/rmagick/issues/256
+    imagemagick_ver="6.9.6.8-r1"; \
+    echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
+    apk add --update --no-cache -t .wodby-ruby-run-deps "imagemagick=${imagemagick_ver}"; \
+    apk add --update --no-cache -t .wodby-ruby-dev-deps "imagemagick-dev=${imagemagick_ver}"; \
     \
     # Install redis-cli.
     apk add --update --no-cache redis; \
@@ -95,6 +102,15 @@ RUN set -xe; \
         "${FILES_DIR}/public" \
         "${FILES_DIR}/private" \
         /home/wodby/.ssh; \
+    \
+    # Downloan helper scripts.
+    gotpl_url="https://github.com/wodby/gotpl/releases/download/0.1.5/gotpl-alpine-linux-amd64-0.1.5.tar.gz"; \
+    wget -qO- "${gotpl_url}" | tar xz -C /usr/local/bin; \
+    git clone https://github.com/wodby/alpine /tmp/alpine; \
+    cd /tmp/alpine; \
+    latest=$(git describe --abbrev=0 --tags); \
+    git checkout "${latest}"; \
+    mv /tmp/alpine/bin/* /usr/local/bin; \
     \
     { \
         echo 'export PS1="\u@${WODBY_APP_NAME:-ruby}.${WODBY_ENVIRONMENT_NAME:-container}:\w $ "'; \

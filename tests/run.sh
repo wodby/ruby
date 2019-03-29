@@ -36,7 +36,7 @@ run_action() {
 
 docker-compose up -d
 
-run_action ruby check-ready max_try=20 wait_seconds=5 delay_seconds=60
+run_action ruby check-ready max_try=60 wait_seconds=5
 
 docker_exec ruby tests.sh
 

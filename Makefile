@@ -9,8 +9,6 @@ NAME = ruby-$(RUBY_VER_MINOR)
 WODBY_USER_ID ?= 1000
 WODBY_GROUP_ID ?= 1000
 
-BASE_IMAGE_TAG = $(RUBY_VER)
-
 ifeq ($(TAG),)
     ifneq ($(RUBY_DEV),)
     	TAG ?= $(RUBY_VER_MINOR)-dev
@@ -35,7 +33,7 @@ default: build
 
 build:
 	docker build -t $(REPO):$(TAG) \
-		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+		--build-arg RUBY_VER=$(RUBY_VER) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
