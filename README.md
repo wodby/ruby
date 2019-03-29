@@ -31,6 +31,7 @@
 About images:
 
 * All images are based on Alpine Linux
+* Base image: [ruby](https://github.com/docker-library/ruby)
 * [Travis CI builds](https://travis-ci.com/wodby/ruby) 
 * [Docker Hub](https://hub.docker.com/r/wodby/ruby) 
 
