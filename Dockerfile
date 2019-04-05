@@ -57,7 +57,7 @@ RUN set -xe; \
         openssh \
         openssh-client \
         patch \
-        postgresql-client=11.1-r0 \
+        postgresql-client \
         rabbitmq-c=0.8.0-r5 \
         rsync \
         sqlite-libs=3.26.0-r3 \
