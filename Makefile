@@ -3,6 +3,8 @@
 RUBY_VER ?= 2.6.2
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
+BASE_IMAGE_TAG = $(RUBY_VER)-alpine
+
 REPO = wodby/ruby
 NAME = ruby-$(RUBY_VER_MINOR)
 
@@ -33,7 +35,7 @@ default: build
 
 build:
 	docker build -t $(REPO):$(TAG) \
-		--build-arg RUBY_VER=$(RUBY_VER) \
+		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
