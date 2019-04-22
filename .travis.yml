@@ -30,6 +30,6 @@ after_success:
 notifications:
   email:
     recipients:
-      - $NOTIFICATIONS_EMAIL
+    - $NOTIFICATIONS_EMAIL
     on_success: never
     on_failure: always
