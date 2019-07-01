@@ -33,6 +33,13 @@ RUN set -xe; \
 	adduser -u "${WODBY_USER_ID}" -D -S -s /bin/bash -G wodby wodby; \
 	sed -i '/^wodby/s/!/*/' /etc/shadow; \
     \
+    # @todo remove, and upgrade imagemagick to 7.x once rmagick starts support it
+    # https://github.com/rmagick/rmagick/issues/256
+    imagemagick_ver="6.9.6.8-r1"; \
+    echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
+    apk add --update --no-cache -t .wodby-ruby-run-deps "imagemagick=${imagemagick_ver}"; \
+    apk add --update --no-cache -t .wodby-ruby-dev-deps "imagemagick-dev=${imagemagick_ver}"; \
+    \
     apk add --update --no-cache -t .wodby-ruby-run-deps \
         bash \
         ca-certificates \
@@ -82,12 +89,14 @@ RUN set -xe; \
             nodejs; \
     fi; \
     \
-    # @todo remove, and upgrade imagemagick to 7.x once rmagick starts support it
-    # https://github.com/rmagick/rmagick/issues/256
-    imagemagick_ver="6.9.6.8-r1"; \
-    echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
-    apk add --update --no-cache -t .wodby-ruby-run-deps "imagemagick=${imagemagick_ver}"; \
-    apk add --update --no-cache -t .wodby-ruby-dev-deps "imagemagick-dev=${imagemagick_ver}"; \
+    # Download helper scripts.
+    gotpl_url="https://github.com/wodby/gotpl/releases/download/0.1.5/gotpl-alpine-linux-amd64-0.1.5.tar.gz"; \
+    wget -qO- "${gotpl_url}" | tar xz -C /usr/local/bin; \
+    git clone https://github.com/wodby/alpine /tmp/alpine; \
+    cd /tmp/alpine; \
+    latest=$(git describe --abbrev=0 --tags); \
+    git checkout "${latest}"; \
+    mv /tmp/alpine/bin/* /usr/local/bin; \
     \
     # Install redis-cli.
     apk add --update --no-cache redis; \
@@ -102,15 +111,6 @@ RUN set -xe; \
         "${FILES_DIR}/public" \
         "${FILES_DIR}/private" \
         /home/wodby/.ssh; \
-    \
-    # Download helper scripts.
-    gotpl_url="https://github.com/wodby/gotpl/releases/download/0.1.5/gotpl-alpine-linux-amd64-0.1.5.tar.gz"; \
-    wget -qO- "${gotpl_url}" | tar xz -C /usr/local/bin; \
-    git clone https://github.com/wodby/alpine /tmp/alpine; \
-    cd /tmp/alpine; \
-    latest=$(git describe --abbrev=0 --tags); \
-    git checkout "${latest}"; \
-    mv /tmp/alpine/bin/* /usr/local/bin; \
     \
     { \
         echo 'export PS1="\u@${WODBY_APP_NAME:-ruby}.${WODBY_ENVIRONMENT_NAME:-container}:\w $ "'; \
