@@ -50,7 +50,7 @@ RUN set -xe; \
         gzip \
         icu-libs=64.2-r0 \
         less \
-        libbz2=1.0.6-r6 \
+        libbz2=1.0.6-r7 \
         libjpeg-turbo-utils \
         libjpeg-turbo=2.0.2-r0 \
         libldap=2.4.47-r2 \
