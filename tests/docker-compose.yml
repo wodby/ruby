@@ -1,6 +1,13 @@
 version: "2"
 
 services:
+  postgres:
+    image: wodby/postgres
+    environment:
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+
   nginx:
     image: wodby/nginx
     environment:
@@ -11,30 +18,43 @@ services:
     depends_on:
       - ruby
 
-  sshd:
-    image: $IMAGE
-    command: sudo /usr/sbin/sshd -De
-    volumes:
-      - ./authorized_keys:/home/wodby/.ssh/authorized_keys
-    environment:
-      DEBUG: 1
-
   ruby:
-    image: $IMAGE
+    build:
+      context: ./
+      args:
+        RUBY_TAG: $RUBY_TAG
     environment:
       SSH_DISABLE_STRICT_KEY_CHECKING: 1
       DEBUG: 1
       ROWS: 80
+      RAILS_ENV: development
+      DB_HOST: $DB_HOST
+      DB_USER: $DB_USER
+      DB_NAME: $DB_NAME
+      DB_PASSWORD: $DB_PASSWORD
+      DB_ADAPTER: $DB_ADAPTER
     volumes:
       - ./tests.sh:/usr/local/bin/tests.sh
       - ./id_rsa:/home/wodby/.ssh/id_rsa
-    # workaround sqlite version error https://stackoverflow.com/questions/7371809/rails-sqlite-adapter-error/7371897#7371897
-    command: sh -c "gem install rails && rails new . && sed -i \"s/gem 'sqlite3'/gem 'sqlite3', '~> 1.3.6'/\" Gemfile && bundle install && puma -C /usr/local/etc/puma.rb"
     depends_on:
       - sshd
 
+  sshd:
+    build:
+      context: ./
+      args:
+        RUBY_TAG: $RUBY_TAG
+    command: sudo /usr/sbin/sshd -De
+    volumes:
+    - ./authorized_keys:/home/wodby/.ssh/authorized_keys
+    environment:
+      DEBUG: 1
+
   crond:
-    image: $IMAGE
+    build:
+      context: ./
+      args:
+        RUBY_TAG: $RUBY_TAG
     command: sudo -E crond -f -d 0
     volumes:
       - ./crontab:/etc/crontabs/wodby

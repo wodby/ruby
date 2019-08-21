@@ -43,7 +43,7 @@ build:
 
 test:
 ifneq ($(RUBY_DEV),)
-	cd ./tests && IMAGE=$(REPO):$(TAG) ./run.sh
+	cd ./tests && RUBY_TAG=$(TAG) ./run.sh
 else
 	@echo "We run tests only for DEV images."
 endif
