@@ -4,6 +4,7 @@ FROM wodby/ruby:${RUBY_TAG}
 
 # Rails 6 requries ruby >= 2.5
 RUN if [[ "${RUBY_VERSION:0:3}" == "2.4" ]]; then \
+        gem install sprockets -v 3.7.2; \
         gem install rails -v 5; \
     else \
         gem install rails; \
