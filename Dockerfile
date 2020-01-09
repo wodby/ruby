@@ -83,10 +83,11 @@ RUN set -xe; \
             build-base \
             libffi-dev \
             linux-headers \
+            mariadb-dev \
+            nodejs \
             postgresql-dev \
             sqlite-dev \
-            mariadb-dev \
-            nodejs; \
+            yarn; \
     fi; \
     \
     # Download helper scripts.
