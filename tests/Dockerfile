@@ -12,6 +12,7 @@ RUN if [[ "${RUBY_VERSION:0:3}" == "2.4" ]]; then \
 
 RUN echo 1
 
+RUN apk add --update yarn
 RUN rails new . --database=postgresql
 
 RUN if rails version | grep -q "Rails 6."; then \
