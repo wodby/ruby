@@ -48,7 +48,7 @@ RUN set -xe; \
         git \
         gmp=6.1.2-r1 \
         gzip \
-        icu-libs=64.2-r0 \
+        icu-libs=64.2-r1 \
         less \
         libbz2=1.0.8-r1 \
         libjpeg-turbo-utils \
