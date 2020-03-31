@@ -5,7 +5,7 @@ services:
 
 env:
   global:
-    - RUBY26=2.6.5
+    - RUBY26=2.6.6
     - RUBY25=2.5.7
     - RUBY24=2.4.9
   matrix:
