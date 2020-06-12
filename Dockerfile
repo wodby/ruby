@@ -33,31 +33,25 @@ RUN set -xe; \
 	adduser -u "${WODBY_USER_ID}" -D -S -s /bin/bash -G wodby wodby; \
 	sed -i '/^wodby/s/!/*/' /etc/shadow; \
     \
-    # @todo remove, and upgrade imagemagick to 7.x once rmagick starts support it
-    # https://github.com/rmagick/rmagick/issues/256
-    imagemagick_ver="6.9.6.8-r1"; \
-    echo 'http://dl-cdn.alpinelinux.org/alpine/v3.5/main' >> /etc/apk/repositories; \
-    apk add --update --no-cache -t .wodby-ruby-run-deps "imagemagick=${imagemagick_ver}"; \
-    apk add --update --no-cache -t .wodby-ruby-dev-deps "imagemagick-dev=${imagemagick_ver}"; \
-    \
     apk add --update --no-cache -t .wodby-ruby-run-deps \
         bash \
         ca-certificates \
         curl \
-        freetype=2.10.1-r0 \
+        freetype \
         git \
-        gmp=6.1.2-r1 \
+        gmp \
         gzip \
-        icu-libs=64.2-r1 \
+        icu-libs \
+        imagemagick \
         less \
-        libbz2=1.0.8-r1 \
+        libbz2 \
         libjpeg-turbo-utils \
-        libjpeg-turbo=2.0.4-r0 \
-        libldap=2.4.48-r2 \
-        libmemcached-libs=1.0.18-r4 \
-        libpng=1.6.37-r1 \
-        librdkafka=1.2.2-r0 \
-        libxslt=1.1.34-r0 \
+        libjpeg-turbo \
+        libldap \
+        libmemcached-libs \
+        libpng \
+        librdkafka \
+        libxslt \
         make \
         mariadb-client \
         nano \
@@ -65,7 +59,7 @@ RUN set -xe; \
         openssh-client \
         patch \
         postgresql-client \
-        rabbitmq-c=0.10.0-r0 \
+        rabbitmq-c \
         rsync \
         sqlite-libs \
         su-exec \
@@ -76,11 +70,12 @@ RUN set -xe; \
         tzdata \
         unzip \
         wget \
-        yaml=0.2.2-r1; \
+        yaml; \
     \
     if [[ -n "${RUBY_DEV}" ]]; then \
         apk add --update --no-cache -t .wodby-ruby-dev-deps \
             build-base \
+            imagemagick-dev \
             libffi-dev \
             linux-headers \
             mariadb-dev \
