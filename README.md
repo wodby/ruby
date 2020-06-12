@@ -12,7 +12,6 @@
     * [`-dev-macos`](#-dev-macos)
 * [Environment Variables](#environment-variables)
 * [Build arguments](#build-arguments)
-* [Libraries](#libraries)
 * [Changelog](#changelog)
 * [Gems](#gems)
 * [HTTP server](#http-server)
@@ -104,10 +103,6 @@ Same as `-dev` but the default user/group `wodby` has uid/gid `501`/`20`  to mat
 | `WODBY_USER_ID`  | `1000`        |
 
 Change `WODBY_USER_ID` and `WODBY_GROUP_ID` mainly for local dev version of images, if it matches with existing system user/group ids the latter will be deleted.
-
-## Libraries
-
-All essential linux libraries are freezed and updates will be reflected in [changelog](#changelog). 
 
 ## Changelog
 
