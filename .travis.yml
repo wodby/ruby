@@ -5,19 +5,19 @@ services:
 
 env:
   global:
+    - RUBY27=2.7.1
     - RUBY26=2.6.6
     - RUBY25=2.5.8
-    - RUBY24=2.4.10
   matrix:
-    - RUBY_VER="${RUBY26}" TAGS=2.6,2,latest
+    - RUBY_VER="${RUBY27}" TAGS=2.7,2,latest
+    - RUBY_VER="${RUBY26}" TAGS=2.6
     - RUBY_VER="${RUBY25}" TAGS=2.5
-    - RUBY_VER="${RUBY24}" TAGS=2.4
-    - RUBY_VER="${RUBY26}" RUBY_DEV=1 TAGS=2.6-dev,2-dev
+    - RUBY_VER="${RUBY27}" RUBY_DEV=1 TAGS=2.7-dev,2-dev,dev
+    - RUBY_VER="${RUBY26}" RUBY_DEV=1 TAGS=2.6-dev
     - RUBY_VER="${RUBY25}" RUBY_DEV=1 TAGS=2.5-dev
-    - RUBY_VER="${RUBY24}" RUBY_DEV=1 TAGS=2.4-dev
-    - RUBY_VER="${RUBY26}" RUBY_DEV=1 WODBY_USER_ID=501 WODBY_GROUP_ID=20 TAGS=2.6-dev-macos,2-dev-macos
+    - RUBY_VER="${RUBY27}" RUBY_DEV=1 WODBY_USER_ID=501 WODBY_GROUP_ID=20 TAGS=2.7-dev-macos,2-dev-macos,dev-macos
+    - RUBY_VER="${RUBY26}" RUBY_DEV=1 WODBY_USER_ID=501 WODBY_GROUP_ID=20 TAGS=2.6-dev-macos
     - RUBY_VER="${RUBY25}" RUBY_DEV=1 WODBY_USER_ID=501 WODBY_GROUP_ID=20 TAGS=2.5-dev-macos
-    - RUBY_VER="${RUBY24}" RUBY_DEV=1 WODBY_USER_ID=501 WODBY_GROUP_ID=20 TAGS=2.4-dev-macos
 
 script:
   - set -e

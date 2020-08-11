@@ -25,26 +25,26 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/ruby:2.5-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
+❗For better reliability we release images with stability tags (`wodby/ruby:2.7-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
 
 About images:
 
-* All images are based on Alpine Linux
+* All images based on Alpine Linux
 * Base image: [ruby](https://github.com/docker-library/ruby)
 * [Travis CI builds](https://travis-ci.com/wodby/ruby) 
 * [Docker Hub](https://hub.docker.com/r/wodby/ruby) 
 
 Supported tags and respective `Dockerfile` links:
 
-* `2.6`, `2`, `latest` [_(Dockerfile)_]
+* `2.7`, `2`, `latest` [_(Dockerfile)_]
+* `2.6` [_(Dockerfile)_]
 * `2.5` [_(Dockerfile)_]
-* `2.4` [_(Dockerfile)_]
-* `2.6-dev`, `2-dev` [_(Dockerfile)_]
+* `2.7-dev`, `2-dev`, `dev` [_(Dockerfile)_]
+* `2.6-dev` [_(Dockerfile)_]
 * `2.5-dev` [_(Dockerfile)_]
-* `2.4-dev` [_(Dockerfile)_]
-* `2.6-dev-macos`, `2-dev-macos` [_(Dockerfile)_]
+* `2.7-dev-macos`, `2-dev-macos`, `dev-macos` [_(Dockerfile)_]
+* `2.6-dev-macos` [_(Dockerfile)_]
 * `2.5-dev-macos` [_(Dockerfile)_]
-* `2.4-dev-macos` [_(Dockerfile)_]
 
 [_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
 
