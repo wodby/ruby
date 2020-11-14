@@ -8,8 +8,13 @@ BASE_IMAGE_TAG = $(RUBY_VER)-alpine
 REPO = wodby/ruby
 NAME = ruby-$(RUBY_VER_MINOR)
 
-WODBY_USER_ID ?= 1000
-WODBY_GROUP_ID ?= 1000
+ifeq ($(WODBY_USER_ID),)
+    WODBY_USER_ID := 1000
+endif
+
+ifeq ($(WODBY_GROUP_ID),)
+    WODBY_GROUP_ID := 1000
+endif
 
 ifeq ($(TAG),)
     ifneq ($(RUBY_DEV),)
