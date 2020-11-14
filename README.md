@@ -1,27 +1,27 @@
 # Ruby Docker Container Images
 
-[![Build Status](https://travis-ci.com/wodby/ruby.svg?branch=master)](https://travis-ci.com/wodby/ruby)
+[![Build Status](https://github.com/wodby/ruby/workflows/Build%20docker%20image/badge.svg)](https://github.com/wodby/ruby/actions)
 [![Docker Pulls](https://img.shields.io/docker/pulls/wodby/ruby.svg)](https://hub.docker.com/r/wodby/ruby)
 [![Docker Stars](https://img.shields.io/docker/stars/wodby/ruby.svg)](https://hub.docker.com/r/wodby/ruby)
 [![Docker Layers](https://images.microbadger.com/badges/image/wodby/ruby.svg)](https://microbadger.com/images/wodby/ruby)
 
 ## Table of Contents
 
-* [Docker Images](#docker-images)
-    * [`-dev`](#-dev)
-    * [`-dev-macos`](#-dev-macos)
-* [Environment Variables](#environment-variables)
-* [Build arguments](#build-arguments)
-* [Changelog](#changelog)
-* [Gems](#gems)
-* [HTTP server](#http-server)
-    * [Puma (default)](#puma)
-    * [Unicorn](#unicorn)
-* [Crond](#crond)
-* [SSHD](#sshd)
-* [Adding SSH key](#adding-ssh-key)
-* [Complete Ruby stack](#complete-ruby-stack)
-* [Orchestration Actions](#orchestration-actions)
+- [Docker Images](#docker-images)
+    - [`-dev`](#-dev)
+    - [`-dev-macos`](#-dev-macos)
+- [Environment Variables](#environment-variables)
+- [Build arguments](#build-arguments)
+- [Changelog](#changelog)
+- [Gems](#gems)
+- [HTTP server](#http-server)
+    - [Puma (default)](#puma)
+    - [Unicorn](#unicorn)
+- [Crond](#crond)
+- [SSHD](#sshd)
+- [Adding SSH key](#adding-ssh-key)
+- [Complete Ruby stack](#complete-ruby-stack)
+- [Orchestration Actions](#orchestration-actions)
 
 ## Docker Images
 
@@ -29,22 +29,22 @@
 
 About images:
 
-* All images based on Alpine Linux
-* Base image: [ruby](https://github.com/docker-library/ruby)
-* [Travis CI builds](https://travis-ci.com/wodby/ruby) 
-* [Docker Hub](https://hub.docker.com/r/wodby/ruby) 
+- All images based on Alpine Linux
+- Base image: [ruby](https://github.com/docker-library/ruby)
+- [GitHub actions builds](https://github.com/wodby/ruby/actions) 
+- [Docker Hub](https://hub.docker.com/r/wodby/ruby) 
 
 Supported tags and respective `Dockerfile` links:
 
-* `2.7`, `2`, `latest` [_(Dockerfile)_]
-* `2.6` [_(Dockerfile)_]
-* `2.5` [_(Dockerfile)_]
-* `2.7-dev`, `2-dev`, `dev` [_(Dockerfile)_]
-* `2.6-dev` [_(Dockerfile)_]
-* `2.5-dev` [_(Dockerfile)_]
-* `2.7-dev-macos`, `2-dev-macos`, `dev-macos` [_(Dockerfile)_]
-* `2.6-dev-macos` [_(Dockerfile)_]
-* `2.5-dev-macos` [_(Dockerfile)_]
+- `2.7`, `2`, `latest` [_(Dockerfile)_]
+- `2.6` [_(Dockerfile)_]
+- `2.5` [_(Dockerfile)_]
+- `2.7-dev`, `2-dev`, `dev` [_(Dockerfile)_]
+- `2.6-dev` [_(Dockerfile)_]
+- `2.5-dev` [_(Dockerfile)_]
+- `2.7-dev-macos`, `2-dev-macos`, `dev-macos` [_(Dockerfile)_]
+- `2.6-dev-macos` [_(Dockerfile)_]
+- `2.5-dev-macos` [_(Dockerfile)_]
 
 [_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
 
@@ -52,9 +52,9 @@ Supported tags and respective `Dockerfile` links:
 
 Images with `-dev` tag have the following additions:
 
-* `sudo` allowed for all commands for `wodby` user
-* dev package added for additional native extensions compilation 
-* `nodejs` package added (required by rails)
+- `sudo` allowed for all commands for `wodby` user
+- dev package added for additional native extensions compilation 
+- `nodejs` package added (required by rails)
 
 ### `-dev-macos`
 
