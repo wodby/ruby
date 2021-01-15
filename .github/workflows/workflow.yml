@@ -11,11 +11,22 @@ on:
   pull_request:
 
 env:
+  RUBY30: 3.0.0
   RUBY27: 2.7.2
   RUBY26: 2.6.6
   RUBY25: 2.5.8
 
 jobs:
+  ruby30:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions
+      with:
+        version: ${{ env.RUBY30 }}
+        tags: 3.0,3,latest
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
   ruby27:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +34,7 @@ jobs:
     - uses: ./.github/actions
       with:
         version: ${{ env.RUBY27 }}
-        tags: 2.7,2,latest
+        tags: 2.7,2
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
   ruby26:
@@ -47,6 +58,17 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
   ### dev
+  ruby30-dev:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions
+      with:
+        version: ${{ env.RUBY30 }}
+        dev: 1
+        tags: 3.0-dev,3-dev,dev
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
   ruby27-dev:
     runs-on: ubuntu-latest
     steps:
@@ -55,7 +77,7 @@ jobs:
       with:
         version: ${{ env.RUBY27 }}
         dev: 1
-        tags: 2.7-dev,2-dev,dev
+        tags: 2.7-dev,2-dev
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
   ruby26-dev:
@@ -81,6 +103,19 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
   ### dev-macos
+  ruby30-dev-macos:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./.github/actions
+      with:
+        version: ${{ env.RUBY30 }}
+        dev: 1
+        user_id: 501
+        group_id: 20
+        tags: 3.0-dev-macos,3-dev-macos,dev-macos
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
   ruby27-dev-macos:
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +126,7 @@ jobs:
         dev: 1
         user_id: 501
         group_id: 20
-        tags: 2.7-dev-macos,2-dev-macos,dev-macos
+        tags: 2.7-dev-macos,2-dev-macos
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
   ruby26-dev-macos:

@@ -25,7 +25,7 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/ruby:2.7-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
+❗For better reliability we release images with stability tags (`wodby/ruby:3.0-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
 
 About images:
 
@@ -36,12 +36,15 @@ About images:
 
 Supported tags and respective `Dockerfile` links:
 
-- `2.7`, `2`, `latest` [_(Dockerfile)_]
+- `3.0`, `3`, `latest` [_(Dockerfile)_]
+- `2.7`, `2` [_(Dockerfile)_]
 - `2.6` [_(Dockerfile)_]
 - `2.5` [_(Dockerfile)_]
-- `2.7-dev`, `2-dev`, `dev` [_(Dockerfile)_]
+- `3.0-dev`, `3-dev`, `dev` [_(Dockerfile)_]
+- `2.7-dev`, `2-dev` [_(Dockerfile)_]
 - `2.6-dev` [_(Dockerfile)_]
 - `2.5-dev` [_(Dockerfile)_]
+- `3.0-dev-macos`, `3-dev-macos` [_(Dockerfile)_]
 - `2.7-dev-macos`, `2-dev-macos`, `dev-macos` [_(Dockerfile)_]
 - `2.6-dev-macos` [_(Dockerfile)_]
 - `2.5-dev-macos` [_(Dockerfile)_]
