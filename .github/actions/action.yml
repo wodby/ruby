@@ -30,6 +30,7 @@ runs:
       WODBY_USER_ID: ${{ inputs.user_id }}
       WODBY_GROUP_ID: ${{ inputs.group_id }}
       TAGS: ${{ inputs.tags }}
+      PLATFORM: ${{ inputs.platform }}
     run: |
       set -e
       make buildx-build-amd64
