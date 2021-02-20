@@ -10,6 +10,7 @@
 - [Docker Images](#docker-images)
     - [`-dev`](#-dev)
     - [`-dev-macos`](#-dev-macos)
+    - [Supported architectures](#supported-architectures)
 - [Environment Variables](#environment-variables)
 - [Build arguments](#build-arguments)
 - [Changelog](#changelog)
@@ -62,6 +63,10 @@ Images with `-dev` tag have the following additions:
 ### `-dev-macos`
 
 Same as `-dev` but the default user/group `wodby` has uid/gid `501`/`20`  to match the macOS default user/group ids.
+
+### Supported architectures
+
+All images built for `linux/amd64`, `-dev-macos` images additionally built for `linux/arm64`
 
 ## Environment Variables
 
