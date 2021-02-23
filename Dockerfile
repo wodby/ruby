@@ -88,9 +88,9 @@ RUN set -xe; \
     fi; \
     \
     # Download helper scripts.
-    dockerplatform=${BUILDPLATFORM:-linux/amd64};\
+    dockerplatform=${BUILDPLATFORM:-linux/amd64}; \
     gotpl_url="https://github.com/wodby/gotpl/releases/download/0.2.1/gotpl-${dockerplatform/\//-}.tar.gz"; \
-    wget -qO- "${gotpl_url}" | tar xz --no-same-owner -C /usr/local/bin
+    wget -qO- "${gotpl_url}" | tar xz --no-same-owner -C /usr/local/bin; \
     git clone https://github.com/wodby/alpine /tmp/alpine; \
     cd /tmp/alpine; \
     latest=$(git describe --abbrev=0 --tags); \
