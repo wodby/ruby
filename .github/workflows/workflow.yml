@@ -11,7 +11,7 @@ on:
   pull_request:
 
 env:
-  RUBY30: 3.0.0
+  RUBY30: 3.0.1
   RUBY27: 2.7.2
   RUBY26: 2.6.6
   RUBY25: 2.5.8

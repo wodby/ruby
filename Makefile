@@ -1,6 +1,6 @@
 -include env_make
 
-RUBY_VER ?= 3.0.0
+RUBY_VER ?= 3.0.1
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
 BASE_IMAGE_TAG = $(RUBY_VER)-alpine
