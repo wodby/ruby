@@ -12,7 +12,7 @@ on:
 
 env:
   RUBY30: 3.0.1
-  RUBY27: 2.7.2
+  RUBY27: 2.7.3
   RUBY26: 2.6.6
   RUBY25: 2.5.8
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
