@@ -3,8 +3,6 @@
 RUBY_VER ?= 3.0.0
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
-BASE_IMAGE_TAG = $(RUBY_VER)-alpine
-
 REPO = wodby/ruby
 NAME = ruby-$(RUBY_VER_MINOR)
 
@@ -42,7 +40,7 @@ default: build
 
 build:
 	docker build -t $(REPO):$(TAG) \
-		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+		--build-arg RUBY_VER=$(RUBY_VER) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
@@ -52,7 +50,7 @@ build:
 # we need to save cache to run tests first.
 buildx-build-amd64:
 	docker buildx build --platform linux/amd64 -t $(REPO):$(TAG) \
-		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+		--build-arg RUBY_VER=$(RUBY_VER) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
@@ -61,7 +59,7 @@ buildx-build-amd64:
 
 buildx-build:
 	docker buildx build --platform $(PLATFORM) -t $(REPO):$(TAG) \
-		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+		--build-arg RUBY_VER=$(RUBY_VER) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
@@ -69,7 +67,7 @@ buildx-build:
 
 buildx-push:
 	docker buildx build --platform $(PLATFORM) --push -t $(REPO):$(TAG) \
-		--build-arg BASE_IMAGE_TAG=$(BASE_IMAGE_TAG) \
+		--build-arg RUBY_VER=$(RUBY_VER) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
