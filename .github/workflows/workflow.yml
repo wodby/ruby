@@ -14,7 +14,6 @@ env:
   RUBY30: 3.0.2
   RUBY27: 2.7.4
   RUBY26: 2.6.8
-  RUBY25: 2.5.9
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -46,15 +45,6 @@ jobs:
       with:
         version: ${{ env.RUBY26 }}
         tags: 2.6
-  ruby25:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: docker/setup-buildx-action@v1
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY25 }}
-        tags: 2.5
   ### dev
   ruby30-dev:
     runs-on: ubuntu-latest
@@ -86,16 +76,6 @@ jobs:
         version: ${{ env.RUBY26 }}
         dev: 1
         tags: 2.6-dev
-  ruby25-dev:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: docker/setup-buildx-action@v1
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY25 }}
-        dev: 1
-        tags: 2.5-dev
   ### dev-macos
   ruby30-dev-macos:
     runs-on: ubuntu-latest
@@ -144,20 +124,4 @@ jobs:
         user_id: 501
         group_id: 20
         tags: 2.6-dev-macos
-        platform: linux/amd64,linux/arm64
-  ruby25-dev-macos:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: docker/setup-qemu-action@v1
-      with:
-        platforms: linux/amd64,linux/arm64
-    - uses: docker/setup-buildx-action@v1
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY25 }}
-        dev: 1
-        user_id: 501
-        group_id: 20
-        tags: 2.5-dev-macos
         platform: linux/amd64,linux/arm64
