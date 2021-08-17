@@ -1,6 +1,6 @@
 ARG RUBY_VER
 
-FROM ruby:${RUBY_VER}-alpine3.13
+FROM ruby:${RUBY_VER}-alpine
 
 ARG RUBY_DEV
 
