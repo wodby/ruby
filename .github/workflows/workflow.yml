@@ -12,7 +12,7 @@ on:
 
 env:
   RUBY30: '3.0.3'
-  RUBY27: 2.7.4
+  RUBY27: '2.7.5'
   RUBY26: 2.6.8
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
