@@ -22,7 +22,7 @@ services:
     build:
       context: ./
       args:
-        RUBY_TAG: $RUBY_TAG
+        RUBY_IMAGE: $RUBY_IMAGE
     environment:
       SSH_DISABLE_STRICT_KEY_CHECKING: 1
       DEBUG: 1
@@ -43,7 +43,7 @@ services:
     build:
       context: ./
       args:
-        RUBY_TAG: $RUBY_TAG
+        RUBY_IMAGE: $RUBY_IMAGE
     command: sudo /usr/sbin/sshd -De
     volumes:
     - ./authorized_keys:/home/wodby/.ssh/authorized_keys
@@ -54,7 +54,7 @@ services:
     build:
       context: ./
       args:
-        RUBY_TAG: $RUBY_TAG
+        RUBY_IMAGE: $RUBY_IMAGE
     command: sudo -E crond -f -d 0
     volumes:
       - ./crontab:/etc/crontabs/wodby
