@@ -1,6 +1,6 @@
-ARG RUBY_TAG
+ARG RUBY_IMAGE
 
-FROM wodby/ruby:${RUBY_TAG}
+FROM $RUBY_IMAGE
 
 RUN gem install rails
 
