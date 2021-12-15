@@ -56,6 +56,7 @@ RUN set -xe; \
         libxslt \
         make \
         mariadb-client \
+        mariadb-connector-c \
         nano \
         openssh \
         openssh-client \
