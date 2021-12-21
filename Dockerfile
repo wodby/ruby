@@ -159,7 +159,7 @@ RUN set -xe; \
 USER wodby
 
 WORKDIR ${APP_ROOT}
-EXPOSE 8000
+EXPOSE 8080
 
 COPY templates /etc/gotpl/
 COPY docker-entrypoint.sh /
