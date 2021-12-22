@@ -1,6 +1,6 @@
-ARG RUBY_TAG
+ARG RUBY_IMAGE
 
-FROM wodby/ruby:${RUBY_TAG}
+FROM $RUBY_IMAGE
 
 RUN if [[ "${RUBY_VERSION}" =~ ^2.6. ]]; then \
       gem install rails -v 6;  \

@@ -11,9 +11,9 @@ on:
   pull_request:
 
 env:
-  RUBY30: 3.0.2
-  RUBY27: 2.7.4
-  RUBY26: 2.6.8
+  RUBY30: '3.0.3'
+  RUBY27: '2.7.5'
+  RUBY26: '2.6.9'
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 

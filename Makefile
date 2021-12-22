@@ -1,9 +1,10 @@
 -include env_make
 
-RUBY_VER ?= 3.0.2
+RUBY_VER ?= 3.0.3
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
-REPO = wodby/ruby
+REGISTRY ?= docker.io
+REPO = $(REGISTRY)/wodby/ruby
 NAME = ruby-$(RUBY_VER_MINOR)
 
 PLATFORM ?= linux/amd64
@@ -75,7 +76,7 @@ buildx-push:
 
 test:
 ifneq ($(RUBY_DEV),)
-	cd ./tests && RUBY_TAG=$(TAG) ./run.sh
+	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) ./run.sh
 else
 	@echo "We run tests only for DEV images."
 endif
