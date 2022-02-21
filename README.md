@@ -3,7 +3,6 @@
 [![Build Status](https://github.com/wodby/ruby/workflows/Build%20docker%20image/badge.svg)](https://github.com/wodby/ruby/actions)
 [![Docker Pulls](https://img.shields.io/docker/pulls/wodby/ruby.svg)](https://hub.docker.com/r/wodby/ruby)
 [![Docker Stars](https://img.shields.io/docker/stars/wodby/ruby.svg)](https://hub.docker.com/r/wodby/ruby)
-[![Docker Layers](https://images.microbadger.com/badges/image/wodby/ruby.svg)](https://microbadger.com/images/wodby/ruby)
 
 ## Table of Contents
 
@@ -26,7 +25,7 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/ruby:3.0-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
+❗For better reliability we release images with stability tags (`wodby/ruby:3.1-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
 
 About images:
 
@@ -37,13 +36,16 @@ About images:
 
 Supported tags and respective `Dockerfile` links:
 
-- `3.0`, `3`, `latest` [_(Dockerfile)_]
+- `3.1`, `3`, `latest` [_(Dockerfile)_]
+- `3.0` [_(Dockerfile)_]
 - `2.7`, `2` [_(Dockerfile)_]
 - `2.6` [_(Dockerfile)_]
-- `3.0-dev`, `3-dev`, `dev` [_(Dockerfile)_]
+- `3.1-dev`, `3-dev`, `dev` [_(Dockerfile)_]
+- `3.0-dev` [_(Dockerfile)_]
 - `2.7-dev`, `2-dev` [_(Dockerfile)_]
 - `2.6-dev` [_(Dockerfile)_]
-- `3.0-dev-macos`, `3-dev-macos` [_(Dockerfile)_]
+- `3.1-dev-macos`, `3-dev-macos` [_(Dockerfile)_]
+- `3.0-dev-macos` [_(Dockerfile)_]
 - `2.7-dev-macos`, `2-dev-macos`, `dev-macos` [_(Dockerfile)_]
 - `2.6-dev-macos` [_(Dockerfile)_]
 
@@ -68,7 +70,7 @@ All images built for `linux/amd64`, `-dev-macos` images additionally built for `
 ## Environment Variables
 
 | Variable                          | Default value            |
-| --------------------------------- | ------------------------ |
+|-----------------------------------|--------------------------|
 | `GIT_USER_EMAIL`                  | `wodby@example.com`      |
 | `GIT_USER_NAME`                   | `wodby`                  |
 | `PUMA_DIRECTORY`                  | `/usr/src/app`           |
@@ -102,7 +104,7 @@ All images built for `linux/amd64`, `-dev-macos` images additionally built for `
 ## Build arguments
 
 | Argument         | Default value |
-| ---------------- | ------------- |
+|------------------|---------------|
 | `RUBY_DEV`       |               |
 | `WODBY_GROUP_ID` | `1000`        |
 | `WODBY_USER_ID`  | `1000`        |
