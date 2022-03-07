@@ -78,6 +78,7 @@ RUN set -xe; \
     if [[ -n "${RUBY_DEV}" ]]; then \
         apk add --update --no-cache -t .wodby-ruby-dev-deps \
             build-base \
+            gcompat \
             imagemagick-dev \
             libffi-dev \
             linux-headers \
