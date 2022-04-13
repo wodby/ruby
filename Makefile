@@ -1,6 +1,6 @@
 -include env_make
 
-RUBY_VER ?= 3.1.1
+RUBY_VER ?= 3.1.2
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
 REGISTRY ?= docker.io
