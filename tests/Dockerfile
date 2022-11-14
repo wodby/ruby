@@ -2,11 +2,7 @@ ARG RUBY_IMAGE
 
 FROM $RUBY_IMAGE
 
-RUN if [[ "${RUBY_VERSION}" =~ ^2.6. ]]; then \
-      gem install rails -v 6;  \
-    else  \
-      gem install rails;  \
-    fi
+RUN gem install rails
 
 RUN rails new . --database=postgresql
 
