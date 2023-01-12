@@ -11,6 +11,7 @@ on:
   pull_request:
 
 env:
+  RUBY32: '3.2.0'
   RUBY31: '3.1.3'
   RUBY30: '3.0.5'
   RUBY27: '2.7.7'
@@ -18,6 +19,15 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
+  ruby32:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: docker/setup-buildx-action@v1
+    - uses: ./.github/actions
+      with:
+        version: ${{ env.RUBY32 }}
+        tags: 3.2,3,latest
   ruby31:
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +36,7 @@ jobs:
     - uses: ./.github/actions
       with:
         version: ${{ env.RUBY31 }}
-        tags: 3.1,3,latest
+        tags: 3.1
   ruby30:
     runs-on: ubuntu-latest
     steps:
@@ -46,6 +56,16 @@ jobs:
         version: ${{ env.RUBY27 }}
         tags: 2.7,2
   ### dev
+  ruby32-dev:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: docker/setup-buildx-action@v1
+    - uses: ./.github/actions
+      with:
+        version: ${{ env.RUBY32 }}
+        dev: 1
+        tags: 3.2-dev,3-dev,dev
   ruby31-dev:
     runs-on: ubuntu-latest
     steps:
@@ -55,7 +75,7 @@ jobs:
       with:
         version: ${{ env.RUBY31 }}
         dev: 1
-        tags: 3.1-dev,3-dev,dev
+        tags: 3.1-dev
   ruby30-dev:
     runs-on: ubuntu-latest
     steps:
@@ -77,6 +97,22 @@ jobs:
         dev: 1
         tags: 2.7-dev,2-dev
   ### dev-macos
+  ruby32-dev-macos:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: docker/setup-qemu-action@v1
+      with:
+        platforms: linux/amd64,linux/arm64
+    - uses: docker/setup-buildx-action@v1
+    - uses: ./.github/actions
+      with:
+        version: ${{ env.RUBY32 }}
+        dev: 1
+        user_id: 501
+        group_id: 20
+        tags: 3.2-dev-macos,3-dev-macos,dev-macos
+        platform: linux/amd64,linux/arm64
   ruby31-dev-macos:
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +127,7 @@ jobs:
         dev: 1
         user_id: 501
         group_id: 20
-        tags: 3.1-dev-macos,3-dev-macos,dev-macos
+        tags: 3.1-dev-macos
         platform: linux/amd64,linux/arm64
   ruby30-dev-macos:
     runs-on: ubuntu-latest

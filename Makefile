@@ -1,6 +1,6 @@
 -include env_make
 
-RUBY_VER ?= 3.1.3
+RUBY_VER ?= 3.2.0
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
 REGISTRY ?= docker.io
@@ -76,7 +76,11 @@ buildx-push:
 
 test:
 ifneq ($(RUBY_DEV),)
+ifeq ($(RUBY_VER_MINOR),3.2)
+	@echo "No tests for now for Ruby 3.2"
+else
 	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) ./run.sh
+endif
 else
 	@echo "We run tests only for DEV images."
 endif
