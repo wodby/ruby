@@ -14,7 +14,7 @@ env:
   RUBY32: '3.2.2'
   RUBY31: '3.1.4'
   RUBY30: '3.0.6'
-  RUBY27: '2.7.7'
+  RUBY27: '2.7.8'
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
