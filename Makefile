@@ -76,11 +76,7 @@ buildx-push:
 
 test:
 ifneq ($(RUBY_DEV),)
-ifeq ($(RUBY_VER_MINOR),3.2)
-	@echo "No tests for now for Ruby 3.2"
-else
 	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) ./run.sh
-endif
 else
 	@echo "We run tests only for DEV images."
 endif
