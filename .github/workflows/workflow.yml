@@ -11,7 +11,7 @@ on:
   pull_request:
 
 env:
-  RUBY33: '3.3.0'
+  RUBY33: '3.3.1'
   RUBY32: '3.2.3'
   RUBY31: '3.1.4'
   RUBY30: '3.0.6'
