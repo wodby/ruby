@@ -14,7 +14,6 @@ env:
   RUBY33: '3.3.1'
   RUBY32: '3.2.4'
   RUBY31: '3.1.5'
-  RUBY30: '3.0.7'
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
@@ -46,15 +45,6 @@ jobs:
       with:
         version: ${{ env.RUBY31 }}
         tags: 3.1
-  ruby30:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: docker/setup-buildx-action@v3
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY30 }}
-        tags: '3.0'
   ### dev
   ruby33-dev:
     runs-on: ubuntu-latest
@@ -86,16 +76,6 @@ jobs:
         version: ${{ env.RUBY31 }}
         dev: 1
         tags: 3.1-dev
-  ruby30-dev:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: docker/setup-buildx-action@v3
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY30 }}
-        dev: 1
-        tags: 3.0-dev
   ### dev-macos
   ruby33-dev-macos:
     runs-on: ubuntu-latest
@@ -144,20 +124,4 @@ jobs:
         user_id: 501
         group_id: 20
         tags: 3.1-dev-macos
-        platform: linux/amd64,linux/arm64
-  ruby30-dev-macos:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: docker/setup-qemu-action@v3
-      with:
-        platforms: linux/amd64,linux/arm64
-    - uses: docker/setup-buildx-action@v3
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY30 }}
-        dev: 1
-        user_id: 501
-        group_id: 20
-        tags: 3.0-dev-macos
         platform: linux/amd64,linux/arm64
