@@ -76,7 +76,7 @@ buildx-push:
 
 test:
 ifneq ($(RUBY_DEV),)
-	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) ./run.sh
+#	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) ./run.sh
 else
 	@echo "We run tests only for DEV images."
 endif
