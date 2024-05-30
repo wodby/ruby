@@ -16,7 +16,6 @@ env:
   RUBY31: '3.1.6'
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  DOCKER_CLI_EXPERIMENTAL: enabled
 
 jobs:
   ruby33:

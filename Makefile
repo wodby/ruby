@@ -67,7 +67,7 @@ buildx-build:
 		./
 
 buildx-push:
-	docker buildx build --load --platform $(PLATFORM) --push -t $(REPO):$(TAG) \
+	docker buildx build --platform $(PLATFORM) --push -t $(REPO):$(TAG) \
 		--build-arg RUBY_VER=$(RUBY_VER) \
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
