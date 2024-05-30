@@ -138,6 +138,7 @@ RUN set -xe; \
     # Configure ldap
     echo "TLS_CACERTDIR /etc/ssl/certs/" >> /etc/openldap/ldap.conf; \
     \
+    mkdir -p /etc/init.d; \
     touch \
         /etc/ssh/sshd_config \
         /usr/local/etc/unicorn.rb \
