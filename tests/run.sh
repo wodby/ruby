@@ -27,14 +27,14 @@ wait_for_cron() {
 }
 
 docker_exec() {
-    docker-compose exec -T "${@}"
+    docker compose exec -T "${@}"
 }
 
 run_action() {
     docker_exec "${1}" make "${@:2}" -f /usr/local/bin/actions.mk
 }
 
-docker-compose up -d
+docker compose up -d
 
 run_action ruby check-ready max_try=10 wait_seconds=3
 
@@ -42,4 +42,4 @@ docker_exec ruby tests.sh
 
 wait_for_cron
 
-docker-compose down
+docker compose down
