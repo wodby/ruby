@@ -122,6 +122,7 @@ RUN set -xe; \
     \
     # Configure sudoers
     { \
+        echo "Defaults secure_path=\"$PATH\""; \
         echo 'Defaults env_keep += "APP_ROOT FILES_DIR"' ; \
         \
         if [[ -n "${RUBY_DEV}" ]]; then \
