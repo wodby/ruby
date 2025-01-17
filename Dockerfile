@@ -85,6 +85,7 @@ RUN set -xe; \
             nodejs \
             postgresql-dev \
             sqlite-dev \
+            yaml-dev \
             yarn; \
     fi; \
     \
