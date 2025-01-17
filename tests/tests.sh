@@ -6,6 +6,7 @@ if [[ -n "${DEBUG}" ]]; then
     set -x
 fi
 
+sudo apk add --update yaml-dev
 ruby -v | grep -q "${RUBY_VERSION}"
 
 ssh sshd cat /home/wodby/.ssh/authorized_keys | grep -q admin@example.com
