@@ -2,6 +2,8 @@ ARG RUBY_IMAGE
 
 FROM $RUBY_IMAGE
 
+RUN sudo apk add --update yaml-dev
+
 RUN gem install rails
 
 RUN rails new . --database=postgresql
