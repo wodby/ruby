@@ -97,6 +97,9 @@ logs:
 	docker logs $(NAME)
 
 clean:
+ifneq ($(RUBY_DEV),)
+	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) docker compose down -v
+endif
 	-docker rm -f $(NAME)
 
 release: build push

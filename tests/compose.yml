@@ -19,6 +19,7 @@ services:
   ruby:
     pull_policy: never
     build:
+      no_cache: true
       context: ./
       args:
         RUBY_IMAGE: $RUBY_IMAGE

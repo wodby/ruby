@@ -51,7 +51,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - uses: docker/setup-buildx-action@v3
       - name: build and push
         env:
           RUBY_VER: ${{ env.RUBY34 }}
@@ -61,9 +60,9 @@ jobs:
           WODBY_GROUP_ID: ${{ matrix.group_id }}
           PLATFORM: ${{ matrix.platform }}
         run: |
-          make buildx-build
+          make
           make test
-          make buildx-push
+          make push
   ruby34-push:
     runs-on: ubuntu-latest
     strategy:
