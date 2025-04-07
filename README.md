@@ -36,15 +36,15 @@ About images:
 
 Supported tags and respective `Dockerfile` links:
 
-- `3.3`, `3`, `latest` [_(Dockerfile)_]
+- `3.4`, `3`, `latest` [_(Dockerfile)_]
+- `3.3` [_(Dockerfile)_]
 - `3.2` [_(Dockerfile)_]
-- `3.1` [_(Dockerfile)_]
-- `3.3-dev`, `3-dev`, `dev` [_(Dockerfile)_]
+- `3.4-dev`, `3-dev`, `dev` [_(Dockerfile)_]
+- `3.3-dev` [_(Dockerfile)_]
 - `3.2-dev` [_(Dockerfile)_]
-- `3.1-dev` [_(Dockerfile)_]
-- `3.3-dev-macos`, `3-dev-macos` [_(Dockerfile)_]
+- `3.4-dev-macos`, `3-dev-macos` [_(Dockerfile)_]
+- `3.3-dev-macos` [_(Dockerfile)_]
 - `3.2-dev-macos` [_(Dockerfile)_]
-- `3.1-dev-macos` [_(Dockerfile)_]
 
 [_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
 

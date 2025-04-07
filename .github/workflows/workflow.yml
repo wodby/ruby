@@ -11,13 +11,22 @@ on:
   pull_request:
 
 env:
+  RUBY34: '3.4.2'
   RUBY33: '3.3.7'
   RUBY32: '3.2.8'
-  RUBY31: '3.1.7'
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
+  ruby34:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: ./.github/actions
+        with:
+          version: ${{ env.RUBY34 }}
+          tags: 3.4,3,latest  
   ruby33:
     runs-on: ubuntu-latest
     steps:
@@ -26,7 +35,7 @@ jobs:
     - uses: ./.github/actions
       with:
         version: ${{ env.RUBY33 }}
-        tags: 3.3,3,latest
+        tags: 3.3
   ruby32:
     runs-on: ubuntu-latest
     steps:
@@ -36,26 +45,27 @@ jobs:
       with:
         version: ${{ env.RUBY32 }}
         tags: 3.2
-  ruby31:
+  ### dev
+  ruby34-dev:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - uses: docker/setup-buildx-action@v3
     - uses: ./.github/actions
       with:
-        version: ${{ env.RUBY31 }}
-        tags: 3.1
-  ### dev
+        version: ${{ env.RUBY34 }}
+        dev: 1
+        tags: 3.4-dev,3-dev,dev
   ruby33-dev:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: docker/setup-buildx-action@v3
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY33 }}
-        dev: 1
-        tags: 3.3-dev,3-dev,dev
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: ./.github/actions
+        with:
+          version: ${{ env.RUBY33 }}
+          dev: 1
+          tags: 3.3-dev        
   ruby32-dev:
     runs-on: ubuntu-latest
     steps:
@@ -66,18 +76,8 @@ jobs:
         version: ${{ env.RUBY32 }}
         dev: 1
         tags: 3.2-dev
-  ruby31-dev:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: docker/setup-buildx-action@v3
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY31 }}
-        dev: 1
-        tags: 3.1-dev
   ### dev-macos
-  ruby33-dev-macos:
+  ruby34-dev-macos:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -87,12 +87,28 @@ jobs:
     - uses: docker/setup-buildx-action@v3
     - uses: ./.github/actions
       with:
-        version: ${{ env.RUBY33 }}
+        version: ${{ env.RUBY34 }}
         dev: 1
         user_id: 501
         group_id: 20
-        tags: 3.3-dev-macos,3-dev-macos,dev-macos
+        tags: 3.4-dev-macos,3-dev-macos,dev-macos
         platform: linux/amd64,linux/arm64
+  ruby33-dev-macos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+      - uses: docker/setup-buildx-action@v3
+      - uses: ./.github/actions
+        with:
+          version: ${{ env.RUBY33 }}
+          dev: 1
+          user_id: 501
+          group_id: 20
+          tags: 3.3-dev-macos
+          platform: linux/amd64,linux/arm64        
   ruby32-dev-macos:
     runs-on: ubuntu-latest
     steps:
@@ -108,20 +124,4 @@ jobs:
         user_id: 501
         group_id: 20
         tags: 3.2-dev-macos
-        platform: linux/amd64,linux/arm64
-  ruby31-dev-macos:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: docker/setup-qemu-action@v3
-      with:
-        platforms: linux/amd64,linux/arm64
-    - uses: docker/setup-buildx-action@v3
-    - uses: ./.github/actions
-      with:
-        version: ${{ env.RUBY31 }}
-        dev: 1
-        user_id: 501
-        group_id: 20
-        tags: 3.1-dev-macos
         platform: linux/amd64,linux/arm64
