@@ -3,8 +3,7 @@
 RUBY_VER ?= 3.4.2
 RUBY_VER_MINOR := $(shell v='$(RUBY_VER)'; echo "$${v%.*}")
 
-REGISTRY ?= docker.io
-REPO = $(REGISTRY)/wodby/ruby
+REPO = wodby/ruby
 NAME = ruby-$(RUBY_VER_MINOR)
 
 PLATFORM ?= linux/arm64
