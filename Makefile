@@ -7,7 +7,7 @@ REGISTRY ?= docker.io
 REPO = $(REGISTRY)/wodby/ruby
 NAME = ruby-$(RUBY_VER_MINOR)
 
-PLATFORM ?= linux/amd64
+PLATFORM ?= linux/arm64
 
 ifeq ($(WODBY_USER_ID),)
     WODBY_USER_ID := 1000
@@ -18,24 +18,26 @@ ifeq ($(WODBY_GROUP_ID),)
 endif
 
 ifeq ($(TAG),)
-    ifneq ($(RUBY_DEV),)
-    	TAG ?= $(RUBY_VER_MINOR)-dev
-    else
-        TAG ?= $(RUBY_VER_MINOR)
-    endif
+	ifneq ($(PHP_DEV),)
+		ifeq ($(WODBY_USER_ID),501)
+			TAG := $(PHP_VER_MINOR)-dev-macos
+			NAME := $(NAME)-dev-macos
+		else
+			TAG := $(PHP_VER_MINOR)-dev
+			NAME := $(NAME)-dev
+		endif
+	else
+		TAG := $(PHP_VER_MINOR)
+	endif
 endif
 
-ifneq ($(RUBY_DEV),)
-    NAME := $(NAME)-dev
+IMAGETOOLS_TAG ?= $(TAG)
+
+ifneq ($(ARCH),)
+	override TAG := $(TAG)-$(ARCH)
 endif
 
-ifneq ($(STABILITY_TAG),)
-    ifneq ($(TAG),latest)
-        override TAG := $(TAG)-$(STABILITY_TAG)
-    endif
-endif
-
-.PHONY: build buildx-build buildx-build-amd64 buildx-push test push shell run start stop logs clean release
+.PHONY: build buildx-build buildx-push test push shell run start stop logs clean release
 
 default: build
 
@@ -45,17 +47,6 @@ build:
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
-		./
-
-# --load doesn't work with multiple platforms https://github.com/docker/buildx/issues/59
-# we need to save cache to run tests first.
-buildx-build-amd64:
-	docker buildx build --platform linux/amd64 -t $(REPO):$(TAG) \
-		--build-arg RUBY_VER=$(RUBY_VER) \
-		--build-arg RUBY_DEV=$(RUBY_DEV) \
-		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
-		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
-		--load \
 		./
 
 buildx-build:
@@ -73,6 +64,12 @@ buildx-push:
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
 		./
+
+buildx-imagetools-create:
+	docker buildx imagetools create -t $(REPO):$(IMAGETOOLS_TAG) \
+				  $(REPO):$(TAG)-amd64 \
+				  $(REPO):$(TAG)-arm64
+.PHONY: buildx-imagetools-create 
 
 test:
 ifneq ($(RUBY_DEV),)
