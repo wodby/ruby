@@ -55,6 +55,7 @@ buildx-build:
 		--build-arg RUBY_DEV=$(RUBY_DEV) \
 		--build-arg WODBY_GROUP_ID=$(WODBY_GROUP_ID) \
 		--build-arg WODBY_USER_ID=$(WODBY_USER_ID) \
+		--load \
 		./
 
 buildx-push:
