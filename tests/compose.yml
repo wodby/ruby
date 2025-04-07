@@ -17,6 +17,7 @@ services:
       - ruby
 
   ruby:
+    pull_policy: never
     build:
       context: ./
       args:
