@@ -18,16 +18,16 @@ ifeq ($(WODBY_GROUP_ID),)
 endif
 
 ifeq ($(TAG),)
-	ifneq ($(PHP_DEV),)
+	ifneq ($(RUBY_DEV),)
 		ifeq ($(WODBY_USER_ID),501)
-			TAG := $(PHP_VER_MINOR)-dev-macos
+			TAG := $(RUBY_VER_MINOR)-dev-macos
 			NAME := $(NAME)-dev-macos
 		else
-			TAG := $(PHP_VER_MINOR)-dev
+			TAG := $(RUBY_VER_MINOR)-dev
 			NAME := $(NAME)-dev
 		endif
 	else
-		TAG := $(PHP_VER_MINOR)
+		TAG := $(RUBY_VER_MINOR)
 	endif
 endif
 
