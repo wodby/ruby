@@ -3,100 +3,46 @@ name: Build docker image
 on:
   push:
     branches:
-    - master
+      - master
 
     tags:
-    - '*'
+      - '*'
 
   pull_request:
 
 env:
+  RUBY40: '4.0.2'
   RUBY34: '3.4.9'
   RUBY33: '3.3.11'
-  RUBY32: '3.2.11'
 
 jobs:
-  ### 3.4
-  ruby34-build:
-    strategy:
-      matrix:
-        arch:
-          - amd64
-          - arm64
-        dev:
-          - ''
-          - '1'
-        user_id:
-          - 1000
-          - 501
-        include:
-          - arch: amd64
-            runner: ubuntu-24.04
-          - arch: arm64
-            runner: ubuntu-24.04-arm
-          - user_id: 501
-            group_id: 20
-            dev: 1
-        exclude:
-          - dev: ''
-            user_id: 501
-    runs-on: ${{ matrix.runner }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: build and push
-        env:
-          RUBY_VER: ${{ env.RUBY34 }}
-          ARCH: ${{ matrix.arch }}
-          RUBY_DEV: ${{ matrix.dev }}
-          WODBY_USER_ID: ${{ matrix.user_id }}
-          WODBY_GROUP_ID: ${{ matrix.group_id }}
-        run: |
-          make
-          make test
-          make push
-  ruby34-push:
+  setup:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dev:
-          - ''
-          - '1'
-        user_id:
-          - 1000
-          - 501
-        exclude:
-          - dev: ''
-            user_id: 501
-    needs:
-      - ruby34-build
+    outputs:
+      ruby-versions: ${{ steps.set-matrix.outputs.ruby-versions }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - uses: ./.github/actions
-        with:
-          version: ${{ env.RUBY34 }}
-          dev: ${{ matrix.dev }}
-          user_id: ${{ matrix.user_id }}
-          latest: true
-          latest_major: true
+      - id: set-matrix
+        run: |
+          cat << 'EOF' > versions.json
+          [
+            {"key": "ruby40", "version": "${{ env.RUBY40 }}", "workdir": ".", "latest": "latest", "latest_major": "latest-major"},
+            {"key": "ruby34", "version": "${{ env.RUBY34 }}", "workdir": ".", "latest": "", "latest_major": "latest-major"},
+            {"key": "ruby33", "version": "${{ env.RUBY33 }}", "workdir": ".", "latest": "", "latest_major": ""}
+          ]
+          EOF
+          echo "ruby-versions=$(jq -c . versions.json)" >> "$GITHUB_OUTPUT"
 
-  ### 3.3
-  ruby33-build:
+  build:
+    needs: setup
     strategy:
       matrix:
+        ruby: ${{ fromJson(needs.setup.outputs.ruby-versions) }}
         arch:
           - amd64
           - arm64
         dev:
           - ''
-          - '1'
+          - 'dev'
         user_id:
           - 1000
           - 501
@@ -107,20 +53,20 @@ jobs:
             runner: ubuntu-24.04-arm
           - user_id: 501
             group_id: 20
-            dev: 1
+            dev: dev
         exclude:
           - dev: ''
             user_id: 501
     runs-on: ${{ matrix.runner }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
+      - uses: actions/checkout@v6
+      - uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: build and push
         env:
-          RUBY_VER: ${{ env.RUBY33 }}
+          RUBY_VER: ${{ matrix.ruby.version }}
           ARCH: ${{ matrix.arch }}
           RUBY_DEV: ${{ matrix.dev }}
           WODBY_USER_ID: ${{ matrix.user_id }}
@@ -129,98 +75,34 @@ jobs:
           make
           make test
           make push
-  ruby33-push:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dev:
-          - ''
-          - '1'
-        user_id:
-          - 1000
-          - 501
-        exclude:
-          - dev: ''
-            user_id: 501
-    needs:
-      - ruby33-build
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - uses: ./.github/actions
-        with:
-          version: ${{ env.RUBY33 }}
-          dev: ${{ matrix.dev }}
-          user_id: ${{ matrix.user_id }}
 
-  ### 3.2
-  ruby32-build:
-    strategy:
-      matrix:
-        arch:
-          - amd64
-          - arm64
-        dev:
-          - ''
-          - '1'
-        user_id:
-          - 1000
-          - 501
-        include:
-          - arch: amd64
-            runner: ubuntu-24.04
-          - arch: arm64
-            runner: ubuntu-24.04-arm
-          - user_id: 501
-            group_id: 20
-            dev: 1
-        exclude:
-          - dev: ''
-            user_id: 501
-    runs-on: ${{ matrix.runner }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: build and push
-        env:
-          RUBY_VER: ${{ env.RUBY32 }}
-          ARCH: ${{ matrix.arch }}
-          RUBY_DEV: ${{ matrix.dev }}
-          WODBY_USER_ID: ${{ matrix.user_id }}
-          WODBY_GROUP_ID: ${{ matrix.group_id }}
-        run: |
-          make
-          make test
-          make push
-  ruby32-push:
+  push:
     runs-on: ubuntu-latest
+    needs:
+      - setup
+      - build
     strategy:
       matrix:
+        ruby: ${{ fromJson(needs.setup.outputs.ruby-versions) }}
         dev:
           - ''
-          - '1'
+          - 'dev'
         user_id:
           - 1000
           - 501
         exclude:
           - dev: ''
             user_id: 501
-    needs:
-      - ruby32-build
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/login-action@v3
+      - uses: actions/checkout@v6
+      - uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - uses: ./.github/actions
         with:
-          version: ${{ env.RUBY32 }}
+          version: ${{ matrix.ruby.version }}
           dev: ${{ matrix.dev }}
           user_id: ${{ matrix.user_id }}
+          latest: ${{ matrix.ruby.latest }}
+          latest_major: ${{ matrix.ruby.latest_major }}

@@ -25,26 +25,26 @@
 
 ## Docker Images
 
-❗For better reliability we release images with stability tags (`wodby/ruby:3-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
+❗For better reliability we release images with stability tags (`wodby/ruby:4-X.X.X`) which correspond to [git tags](https://github.com/wodby/ruby/releases). We strongly recommend using images only with stability tags.
 
 About images:
 
-- All images based on Alpine Linux
+- All images are based on Alpine Linux
 - Base image: [ruby](https://github.com/docker-library/ruby)
 - [GitHub actions builds](https://github.com/wodby/ruby/actions) 
 - [Docker Hub](https://hub.docker.com/r/wodby/ruby) 
 
 Supported tags and respective `Dockerfile` links:
 
-- `3.4`, `3`, `latest` [_(Dockerfile)_]
+- `4.0`, `4`, `latest` [_(Dockerfile)_]
+- `3.4`, `3` [_(Dockerfile)_]
 - `3.3` [_(Dockerfile)_]
-- `3.2` [_(Dockerfile)_]
-- `3.4-dev`, `3-dev`, `dev` [_(Dockerfile)_]
+- `4.0-dev`, `4-dev`, `dev` [_(Dockerfile)_]
+- `3.4-dev`, `3-dev` [_(Dockerfile)_]
 - `3.3-dev` [_(Dockerfile)_]
-- `3.2-dev` [_(Dockerfile)_]
+- `4.0-dev-macos`, `4-dev-macos` [_(Dockerfile)_]
 - `3.4-dev-macos`, `3-dev-macos` [_(Dockerfile)_]
 - `3.3-dev-macos` [_(Dockerfile)_]
-- `3.2-dev-macos` [_(Dockerfile)_]
 
 [_(Dockerfile)_]: https://github.com/wodby/ruby/tree/master/Dockerfile
 
