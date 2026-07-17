@@ -13,7 +13,7 @@ on:
 env:
   RUBY40: '4.0.6'
   RUBY34: '3.4.10'
-  RUBY33: '3.3.11'
+  RUBY33: '3.3.12'
 
 jobs:
   setup:
