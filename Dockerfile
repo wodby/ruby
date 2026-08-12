@@ -2,6 +2,8 @@ ARG RUBY_VER
 
 FROM ruby:${RUBY_VER}-alpine
 
+LABEL com.wodby.ci.cache="bundler"
+
 ARG RUBY_DEV
 
 ARG WODBY_USER_ID=1000
