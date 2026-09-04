@@ -116,7 +116,7 @@ RUN set -xe; \
         /home/wodby/.ssh; \
     \
     { \
-        echo 'export PS1="\u@${WODBY_APP_NAME:-ruby}.${WODBY_ENVIRONMENT_NAME:-container}:\w $ "'; \
+        echo 'export PS1="\u@$(hostname):\w $ "'; \
         echo "export PATH=${PATH}"; \
     } | tee /home/wodby/.shrc; \
     \
