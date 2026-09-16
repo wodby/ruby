@@ -30,15 +30,16 @@ RUN set -xe; \
     apk upgrade --no-cache; \
     # Replace bundled gems, including the old default JSON implementation.
     apk add --no-cache --virtual .wodby-gem-build-deps build-base; \
-    gem install --no-document json -v '~> 2.19.9'; \
-    gem install --no-document net-imap -v '~> 0.5.15'; \
+    system_gems="$(ruby -e 'print Gem.default_dir')"; \
+    gem install --install-dir "$system_gems" --no-document json -v '~> 2.19.9'; \
+    gem install --install-dir "$system_gems" --no-document net-imap -v '~> 0.5.15'; \
     ruby -rjson -rnet/imap -e 'abort unless Gem.loaded_specs.fetch("json").version >= Gem::Version.new("2.19.9")'; \
     ruby -rrbconfig -rfileutils -e ' \
       root = RbConfig::CONFIG.fetch("rubylibdir"); \
       arch = RbConfig::CONFIG.fetch("archdir"); \
       FileUtils.rm_rf([File.join(root, "json"), File.join(root, "json.rb"), File.join(arch, "json")]); \
       Gem.path.each { |path| Dir.glob(File.join(path, "specifications/default/json-*.gemspec")).each { |spec| FileUtils.rm_f(spec) } }'; \
-    gem cleanup json net-imap; \
+    gem cleanup --install-dir "$system_gems" json net-imap; \
     ruby -rjson -rnet/imap -e 'abort unless JSON.parse(%q({"ok":true})).fetch("ok")'; \
     apk del .wodby-gem-build-deps; \
     \
