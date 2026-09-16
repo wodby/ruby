@@ -25,7 +25,9 @@ ENV APP_ROOT="/usr/src/app" \
 
 ARG TARGETPLATFORM
 
+# Upgrade inherited packages even when their existing versions satisfy dependencies.
 RUN set -xe; \
+    apk upgrade --no-cache; \
     \
     # Delete existing user/group if uid/gid occupied.
     existing_group=$(getent group "${WODBY_GROUP_ID}" | cut -d: -f1); \
