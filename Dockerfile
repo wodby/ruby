@@ -39,7 +39,7 @@ RUN set -xe; \
       arch = RbConfig::CONFIG.fetch("archdir"); \
       FileUtils.rm_rf([File.join(root, "json"), File.join(root, "json.rb"), File.join(arch, "json")]); \
       Gem.path.each { |path| Dir.glob(File.join(path, "specifications/default/json-*.gemspec")).each { |spec| FileUtils.rm_f(spec) } }'; \
-    gem cleanup --install-dir "$system_gems" json net-imap; \
+    GEM_HOME="$system_gems" gem cleanup json net-imap; \
     ruby -rjson -rnet/imap -e 'abort unless JSON.parse(%q({"ok":true})).fetch("ok")'; \
     apk del .wodby-gem-build-deps; \
     \
