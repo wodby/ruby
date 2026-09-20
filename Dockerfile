@@ -1,6 +1,10 @@
+# check=skip=InvalidDefaultArgInFrom
+
+# The Makefile supplies the required digest-pinned BASE_IMAGE argument.
 ARG RUBY_VER
 
-FROM ruby:${RUBY_VER}-alpine
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
 
 LABEL com.wodby.ci.cache="bundler"
 
