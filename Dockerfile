@@ -98,6 +98,7 @@ RUN set -xe; \
         yaml; \
     \
     if [[ -n "${RUBY_DEV}" ]]; then \
+        apk add --no-cache ripgrep jq; \
         apk add --update --no-cache -t .wodby-ruby-dev-deps \
             build-base \
             imagemagick-dev \
