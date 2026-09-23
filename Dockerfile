@@ -9,6 +9,7 @@ FROM ${BASE_IMAGE}
 LABEL com.wodby.ci.cache="bundler"
 
 ARG RUBY_DEV
+LABEL com.wodby.workspace.contract="${RUBY_DEV:+1}"
 
 ARG WODBY_USER_ID=1000
 ARG WODBY_GROUP_ID=1000
@@ -193,3 +194,5 @@ COPY bin /usr/local/bin/
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["puma", "-C", "/usr/local/etc/puma.rb"]
+
+COPY workspace-profile.sh /etc/profile.d/workspace.sh

@@ -43,6 +43,17 @@ process_templates() {
     _gotpl puma.conf.rb.tmpl /usr/local/etc/puma.rb
 }
 
+# Configuration-only startup never changes SSH/Git state or runs application hooks.
+if [[ "${1:-}" == --configure-runtime ]]; then
+    _gotpl unicorn.init.d.tmpl /etc/init.d/unicorn
+    _gotpl unicorn.conf.rb.tmpl /usr/local/etc/unicorn.rb
+    _gotpl puma.conf.rb.tmpl /usr/local/etc/puma.rb
+    exit 0
+fi
+if [[ "${WODBY_WORKSPACE:-}" == 1 ]]; then
+    exec workspace-ruby start
+fi
+
 sudo init_container
 
 init_git
