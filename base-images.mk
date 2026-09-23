@@ -3,9 +3,9 @@
 BASE_IMAGE_REPOSITORY := ruby
 BASE_IMAGE_VERSION_SUFFIX := -alpine
 
-BASE_IMAGE_DIGEST_3.3.12-alpine := sha256:c7c6f03932ed67976a1fe4de7d00d8371dee205ea8b954735850fdbeced26576
-BASE_IMAGE_DIGEST_3.4.10-alpine := sha256:62e32b2d23d1ebd2acb22ec2f67f9ed2d67499082403d390b14bf83189da419c
-BASE_IMAGE_DIGEST_4.0.7-alpine := sha256:79bf10b28c9d98b7b3cffda01aba8190aa1c1c48513d205ec93372a0e2f010e3
+BASE_IMAGE_DIGEST_3.3.12-alpine := sha256:d9e5298c8c7dad54b40facac94be1baa10f593db7dec7a9afb47bd44a64c15a9
+BASE_IMAGE_DIGEST_3.4.10-alpine := sha256:6acf053b0254716d793f1e72030742f1b3bf665fd343aed3df15d3e449d06b76
+BASE_IMAGE_DIGEST_4.0.7-alpine := sha256:1ca7cb33e970630d571e0da6140e0bc925faec8f1f8f51f9f2cdf5e5f5eed7c9
 
 # Fail before building when a version or variant has no reviewed pin.
 BASE_IMAGE = $(BASE_IMAGE_REPOSITORY):$(BASE_IMAGE_TAG)@$(or $(BASE_IMAGE_DIGEST_$(BASE_IMAGE_TAG)),$(error No base image digest for $(BASE_IMAGE_REPOSITORY):$(BASE_IMAGE_TAG); update base-images.mk))
