@@ -1,0 +1,17 @@
+#!/bin/sh
+# Frozen Bundler installs never generate or update application lockfiles.
+set -eu
+cd "${APP_ROOT:-/usr/src/app}"
+state=$(workspace-path)
+export BUNDLE_PATH="$state/bundle" BUNDLE_APP_CONFIG="$state/bundle-config"
+export BUNDLE_FROZEN=true BUNDLE_WITHOUT='' RAILS_ENV=development RACK_ENV=development
+export HOST="${HOST:-0.0.0.0}" PORT="${PORT:-8080}"
+case "${1:-}" in
+ prepare)
+  [ -f Gemfile.lock ] || { echo 'Commit Gemfile.lock before preparation' >&2; exit 1; }
+  bundle install ;;
+ start)
+  if [ -n "${WORKSPACE_RUBY_COMMAND:-}" ]; then exec sh -ec "$WORKSPACE_RUBY_COMMAND"; fi
+  exec bundle exec puma --bind "tcp://$HOST:$PORT" ;;
+ *) echo 'Usage: workspace-ruby prepare|start' >&2; exit 1 ;;
+esac

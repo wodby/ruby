@@ -76,6 +76,7 @@ buildx-imagetools-create:
 .PHONY: buildx-imagetools-create 
 
 test:
+	cd ./tests && IMAGE=$(REPO):$(TAG) bash ./workspace-contract.sh
 ifneq ($(RUBY_DEV),)
 	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) ./run.sh
 else

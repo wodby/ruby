@@ -174,3 +174,30 @@ image. A version without a pin fails before the build starts.
 When adding a supported base version or variant, add its image index digest to
 `base-images.mk`. For a custom build, override `BASE_IMAGE` with a complete
 `repository:tag@sha256:...` reference.
+
+### Development workspace contract
+
+Development variants declare `com.wodby.workspace.contract=1`. Configuration-only
+startup (`/docker-entrypoint.sh --configure-runtime`) does not rewrite developer
+SSH/Git settings, initialize shared storage, or run application hooks. Normal
+startup retains its existing behavior. `WODBY_WORKSPACE=1` selects the workspace
+startup command. Login-shell tools remain available when the developer home is mounted.
+
+`workspace-ruby prepare` requires `Gemfile.lock` and runs a frozen Bundler install,
+including development dependencies. `workspace-ruby start` runs Puma or the explicit
+`WORKSPACE_RUBY_COMMAND`. It sets `RAILS_ENV` and `RACK_ENV` to `development`; `HOST`
+and `PORT` default to `0.0.0.0` and `8080`. Generic Ruby requires an application
+restart after code changes. Rails applications should configure
+`config.file_watcher = ActiveSupport::FileUpdateChecker` in development when using
+shared/network storage. A custom evented watcher is not made reliable by placing
+pods on the same node. No database migrations or seed commands run automatically.
+
+Dependencies/build output use `.wodby-workspace/` in the shared checkout, excluded
+through `.git/info/exclude` without editing `.gitignore`. A tracked directory or
+symlink at that reserved path is refused. The runner's private home is not required
+by application pods. Package lifecycle scripts remain application-owned and may
+modify files; review Git changes after preparation.
+
+CI checks labels for all image variants and runs configuration, developer-state,
+reserved-path and runtime tests for development variants. Publish a new image
+revision before enabling this contract in a consuming service.
