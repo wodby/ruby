@@ -12,7 +12,7 @@ on:
   pull_request:
 
 env:
-  RUBY40: '4.0.7'
+  RUBY40: '4.0.8'
   RUBY34: '3.4.11'
   RUBY33: '3.3.12'
 
