@@ -76,6 +76,7 @@ buildx-imagetools-create:
 .PHONY: buildx-imagetools-create 
 
 test:
+	docker run --rm --network none --entrypoint ruby -v "$(CURDIR)/tests/system-gems.rb:/tmp/system-gems.rb:ro" $(REPO):$(TAG) /tmp/system-gems.rb
 	cd ./tests && IMAGE=$(REPO):$(TAG) bash ./workspace-contract.sh
 ifneq ($(RUBY_DEV),)
 	cd ./tests && RUBY_IMAGE=$(REPO):$(TAG) ./run.sh

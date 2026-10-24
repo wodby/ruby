@@ -33,12 +33,11 @@ ARG TARGETPLATFORM
 # Upgrade inherited packages even when their existing versions satisfy dependencies.
 RUN set -xe; \
     apk upgrade --no-cache; \
-    # Replace bundled gems, including the old default JSON implementation.
+    # Refresh bundled gems to the latest releases compatible with this Ruby.
     apk add --no-cache --virtual .wodby-gem-build-deps build-base; \
     system_gems="$(ruby -e 'print Gem.default_dir')"; \
-    gem install --install-dir "$system_gems" --no-document json -v '~> 2.19.9'; \
-    gem install --install-dir "$system_gems" --no-document net-imap -v '~> 0.5.15'; \
-    ruby -rjson -rnet/imap -e 'abort unless Gem.loaded_specs.fetch("json").version >= Gem::Version.new("2.19.9")'; \
+    gem install --install-dir "$system_gems" --no-document json net-imap; \
+    # Remove the replaced default JSON implementation as well as its gemspec. \
     ruby -rrbconfig -rfileutils -e ' \
       root = RbConfig::CONFIG.fetch("rubylibdir"); \
       arch = RbConfig::CONFIG.fetch("archdir"); \
