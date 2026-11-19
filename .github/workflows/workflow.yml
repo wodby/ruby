@@ -20,7 +20,7 @@ concurrency:
 
 env:
   RUBY40: '4.0.10'
-  RUBY34: '3.4.12'
+  RUBY34: '3.4.13'
   RUBY33: '3.3.13'
 
 jobs:
